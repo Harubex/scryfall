@@ -61,6 +61,14 @@ function fromSet(code, cb) {
     }, true);
 }
 exports.fromSet = fromSet;
+var scryfallMethods = {
+    fromSet: fromSet,
+    allSets: allSets,
+    autocomplete: autocomplete,
+    cardVersions: cardVersions,
+    getCard: getCard
+};
+exports.scryfall = scryfallMethods;
 /**
  * Makes a request to the Scryfall API.
  * @param uri - The path to request, including any query parameters.

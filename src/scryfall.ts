@@ -63,6 +63,16 @@ export function fromSet(code: string, cb: (cards: ScryfallCard[]) => void) {
     }, true);
 }
 
+const scryfallMethods = {
+    fromSet: fromSet,
+    allSets: allSets,
+    autocomplete: autocomplete,
+    cardVersions: cardVersions,
+    getCard: getCard
+}
+
+export { scryfallMethods as Scryfall };
+
 
 /**
  * Makes a request to the Scryfall API.
