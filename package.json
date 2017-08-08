@@ -11,10 +11,7 @@
     "mocha": "^3.5.0"
   },
   "license": "MIT",
-  "files": [
-    "./build"
-  ],
   "main": "./build/scryfall.js",
   "name": "scryfall",
-  "version": "0.0.3"
+  "version": "0.0.6"
 }

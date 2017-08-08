@@ -30,3 +30,11 @@ export declare function allSets(cb: (sets: ScryfallSet[]) => void): void;
  * @param cb - The callback to pass card data to.
  */
 export declare function fromSet(code: string, cb: (cards: ScryfallCard[]) => void): void;
+declare const scryfallMethods: {
+    fromSet: (code: string, cb: (cards: ScryfallCard[]) => void) => void;
+    allSets: (cb: (sets: ScryfallSet[]) => void) => void;
+    autocomplete: (token: string, cb: (matches: string[]) => void) => void;
+    cardVersions: (name: string, cb: (cards: ScryfallCard[]) => void) => void;
+    getCard: (code: string, number: number, cb: (card: ScryfallCard) => void) => void;
+};
+export { scryfallMethods as scryfall };
