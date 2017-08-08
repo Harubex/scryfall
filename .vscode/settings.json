@@ -1,0 +1,42 @@
+// Place your settings in this file to overwrite the default settings
+{
+    "editor.fontSize": 17,
+    "workbench.sideBar.location": "right",
+    "typescript.referencesCodeLens.enabled": true,
+    "files.exclude": {
+        "**/*.js": { "when": "$(basename).ts" },
+        "**/*.js.map": true,
+        "node_modules": true,
+        ".gitignore": true,
+        "*.db-journal": true,
+        "yarn.lock": true
+    },
+    "files.autoSave": "off",
+    "files.autoSaveDelay": 100,
+    "[typescript]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": true,
+        "editor.cursorBlinking": "smooth"
+    },
+    "git.autorefresh": true,
+    "git.autofetch": true,
+    "git.enabled": true,
+    "git.confirmSync": true,
+    "[json]": {
+        "editor.quickSuggestions": {
+            "comments": true,
+            "strings": true,
+            "other": true
+        },
+        "editor.insertSpaces": true,
+        "editor.detectIndentation": true,
+        "editor.tabSize": 4
+    },
+    "editor.detectIndentation": true,
+    "editor.tabSize": 4,
+    "editor.codeLens": true,
+    "diffEditor.renderSideBySide": true,
+    "debug.allowBreakpointsEverywhere": true,
+    "debug.inlineValues": true,
+    "editor.minimap.enabled": false
+}

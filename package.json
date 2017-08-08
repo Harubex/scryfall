@@ -1,0 +1,20 @@
+{
+  "author": {
+    "name": "ryan",
+    "email": "ryan@harubex.com",
+    "url": "https://harubex.com"
+  },
+  "deprecated": false,
+  "description": "A simple wrapper around Scryfall's public API.",
+  "devDependencies": {
+    "@types/node": "^8.0.19",
+    "mocha": "^3.5.0"
+  },
+  "license": "MIT",
+  "files": [
+    "./build"
+  ],
+  "main": "./build/scryfall.js",
+  "name": "scryfall",
+  "version": "0.0.3"
+}
