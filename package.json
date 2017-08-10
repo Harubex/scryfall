@@ -7,6 +7,10 @@
         "email": "ryan@harubex.com",
         "url": "https://harubex.com"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Harubex/scryfall.git"
+    },
     "license": "MIT",
     "main": "./build/scryfall.js",
     "devDependencies": {
