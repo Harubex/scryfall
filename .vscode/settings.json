@@ -29,10 +29,10 @@
             "other": true
         },
         "editor.insertSpaces": true,
-        "editor.detectIndentation": true,
+        "editor.detectIndentation": false,
         "editor.tabSize": 4
     },
-    "editor.detectIndentation": true,
+    "editor.detectIndentation": false,
     "editor.tabSize": 4,
     "editor.codeLens": true,
     "diffEditor.renderSideBySide": true,
