@@ -14,16 +14,53 @@ function autocomplete(token, cb) {
     }, true);
 }
 exports.autocomplete = autocomplete;
-/**
- * Gets a card by its set code and collector number. Only available for cards that have collector numbers.
- * @param code - The set code for this card.
- * @param number - The collector number for this card.
- * @param cb - The callback to pass card data to.
- */
-function getCard(code, number, cb) {
-    APIRequest("/cards/" + code + "/" + number, function (cardData) {
-        cb(cardData);
-    });
+function getCard(first, second, cb) {
+    var firstType = typeof (first);
+    var url = "/cards/";
+    var err = null;
+    switch (typeof (second)) {
+        case "function":
+            if (firstType !== "string") {
+                err = "The given Scryfall id is invalid";
+            }
+            else {
+                url += first;
+                cb = second;
+            }
+            break;
+        case "string":
+            if (second !== "mtgo" && second !== "multiverse") {
+                err = "Unable to determine the type of id being used";
+            }
+            else {
+                url += second + "/" + first;
+            }
+            break;
+        case "number":
+            if (firstType !== "string") {
+                err = "Unable to determine set code/collector number being used.";
+            }
+            else {
+                url += first + "/" + second;
+            }
+            break;
+    }
+    if (err) {
+        cb(err);
+    }
+    else {
+        APIRequest(url, function (cardData) {
+            if (cardData.object === "error") {
+                cb(new Error("API call failed: " + cardData.details));
+            }
+            else if (cardData.object === "list") {
+                cb(new Error("Request returned more than one result - check your parameters."), cardData);
+            }
+            else {
+                cb(null, cardData);
+            }
+        });
+    }
 }
 exports.getCard = getCard;
 /**
@@ -68,7 +105,7 @@ var scryfallMethods = {
     cardVersions: cardVersions,
     getCard: getCard
 };
-exports.scryfall = scryfallMethods;
+exports.Scryfall = scryfallMethods;
 /**
  * Makes a request to the Scryfall API.
  * @param uri - The path to request, including any query parameters.
