@@ -7,8 +7,8 @@ import { ScryfallCard } from "./ScryfallCard";
 
 /**
  * Attempts to autocomplete the specified token, returning a list of possible matches.
- * @param token - The token to search for.
- * @param cb - The callback to pass names to.
+ * @param token The token to search for.
+ * @param cb The callback to pass names to.
  */
 export function autocomplete(token: string, cb: (matches: Array<string>) => void) {
     APIRequest(`/cards/autocomplete?q=${token}`, (cards) => {
@@ -18,32 +18,32 @@ export function autocomplete(token: string, cb: (matches: Array<string>) => void
 
 /**
  * Gets a card by its set code and collector number. Only available for cards that have collector numbers.
- * @param code - The set code for this card.
- * @param number - The collector number for this card.
- * @param cb - The callback to pass card data to.
+ * @param code The set code for this card.
+ * @param number The collector number for this card.
+ * @param cb The callback to pass card data to.
  */
 export function getCard(code: string, number: number, cb: (err: Error, card?: ScryfallCard) => void): void;
 
 /**
  * Gets a card by its multiverse id. Only available to cards that have multiverse ids.
- * @param multiverseId - The multiverse id for this card.
- * @param type - The type of this id. Must be the string literal "multiverse".
- * @param cb - The callback to pass card data to.
+ * @param multiverseId The multiverse id for this card.
+ * @param type The type of this id. Must be the string literal "multiverse".
+ * @param cb The callback to pass card data to.
  */
 export function getCard(multiverseId: number, type: "multiverse", cb: (err: Error, card?: ScryfallCard) => void): void;
 
 /**
  * Gets a card by its Magic Online id. Only available to cards that exist on Magic Online.
- * @param multiverseId - The Magic Online id for this card.
- * @param type - The type of this id. Must be the string literal "mtgo".
- * @param cb - The callback to pass card data to.
+ * @param multiverseId The Magic Online id for this card.
+ * @param type The type of this id. Must be the string literal "mtgo".
+ * @param cb The callback to pass card data to.
  */
 export function getCard(mtgoId: number, type: "mtgo", cb: (err: Error, card?: ScryfallCard) => void): void;
 
 /**
  * Gets a card by its Scryfall id. Available to every card fetchable through this API. It'd be kind of weird if it wasn't.
- * @param scryfallId - The Scryfall id for this card.
- * @param cb - The callback to pass card data to.
+ * @param scryfallId The Scryfall id for this card.
+ * @param cb The callback to pass card data to.
  */
 export function getCard(scryfallId: string, cb: (err: Error, card?: ScryfallCard) => void): void;
 
@@ -82,7 +82,7 @@ export function getCard(first?: number | string, second?: any, cb?: (err: Error,
             if (cardData.object === "error") {
                 cb(new Error(`API call failed: ${cardData.details}`));
             } else if (cardData.object === "list") {
-                cb(new Error("Request returned more than one result - check your parameters."), cardData);
+                cb(new Error("Request returned more than one result check your parameters."), cardData);
             } else {
                 cb(null, cardData);
             }
@@ -92,8 +92,8 @@ export function getCard(first?: number | string, second?: any, cb?: (err: Error,
 
 /**
  * Gets all versions of a card with the specified name.
- * @param name - The card name to search for.
- * @param cb - The callback to pass card data to.
+ * @param name The card name to search for.
+ * @param cb The callback to pass card data to.
  */
 export function cardVersions(name: string, cb: (cards: ScryfallCard[]) => void) {
     APIRequest(`/cards/search?q=%2b%2b!%22${name}%22`, (cardData) => {
@@ -103,7 +103,7 @@ export function cardVersions(name: string, cb: (cards: ScryfallCard[]) => void) 
 
 /**
  * Fetches a list of all sets available on scryfall.
- * @param cb - The callback to pass set data to.
+ * @param cb The callback to pass set data to.
  */
 export function allSets(cb: (sets: ScryfallSet[]) => void) {
     APIRequest("/sets", (resp) => {
@@ -116,13 +116,24 @@ export function allSets(cb: (sets: ScryfallSet[]) => void) {
 
 /**
  * Gets all the cards printed in a set with the specified code.
- * @param code - The code of the set to search for.
- * @param cb - The callback to pass card data to.
+ * @param code The code of the set to search for.
+ * @param cb The callback to pass card data to.
  */
-export function fromSet(code: string, cb: (cards: ScryfallCard[]) => void) {
+export function fromSet(code: string, cb: (cards: ScryfallCard[]) => void): void {
     APIRequest(`/cards/search?order=set&q=%2B%2Be%3A${code}`, (resp) => {
         cb(resp);
     }, true);
+}
+
+/**
+ * Fetches a random card.
+ * @param cb The callback to pass card data to.
+ * @param format The format to retrieve this card as.
+ */
+export function randomCard(cb: (card: ScryfallCard) => void, format: "json" | "image" | "text" = "json"): void {
+    APIRequest("/cards/random", (resp) => {
+        cb(resp);
+    });
 }
 
 const scryfallMethods = {
@@ -138,9 +149,9 @@ export { scryfallMethods as Scryfall };
 
 /**
  * Makes a request to the Scryfall API.
- * @param uri - The path to request, including any query parameters.
- * @param cb - The callback to invoke when the request has completed.
- * @param preserve - Whether or not to preserve the original response structure from this request.
+ * @param uri The path to request, including any query parameters.
+ * @param cb The callback to invoke when the request has completed.
+ * @param preserve Whether or not to preserve the original response structure from this request.
  */
 function APIRequest(uri: string, cb: (res: any) => void, preserve: boolean = false, _partialData = []) {
     let parsedUrl = url.parse(uri);
