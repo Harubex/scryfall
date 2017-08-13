@@ -5,8 +5,8 @@ var qs = require("querystring");
 var url = require("url");
 /**
  * Attempts to autocomplete the specified token, returning a list of possible matches.
- * @param token - The token to search for.
- * @param cb - The callback to pass names to.
+ * @param token The token to search for.
+ * @param cb The callback to pass names to.
  */
 function autocomplete(token, cb) {
     APIRequest("/cards/autocomplete?q=" + token, function (cards) {
@@ -54,7 +54,7 @@ function getCard(first, second, cb) {
                 cb(new Error("API call failed: " + cardData.details));
             }
             else if (cardData.object === "list") {
-                cb(new Error("Request returned more than one result - check your parameters."), cardData);
+                cb(new Error("Request returned more than one result check your parameters."), cardData);
             }
             else {
                 cb(null, cardData);
@@ -65,8 +65,8 @@ function getCard(first, second, cb) {
 exports.getCard = getCard;
 /**
  * Gets all versions of a card with the specified name.
- * @param name - The card name to search for.
- * @param cb - The callback to pass card data to.
+ * @param name The card name to search for.
+ * @param cb The callback to pass card data to.
  */
 function cardVersions(name, cb) {
     APIRequest("/cards/search?q=%2b%2b!%22" + name + "%22", function (cardData) {
@@ -76,7 +76,7 @@ function cardVersions(name, cb) {
 exports.cardVersions = cardVersions;
 /**
  * Fetches a list of all sets available on scryfall.
- * @param cb - The callback to pass set data to.
+ * @param cb The callback to pass set data to.
  */
 function allSets(cb) {
     APIRequest("/sets", function (resp) {
@@ -89,8 +89,8 @@ function allSets(cb) {
 exports.allSets = allSets;
 /**
  * Gets all the cards printed in a set with the specified code.
- * @param code - The code of the set to search for.
- * @param cb - The callback to pass card data to.
+ * @param code The code of the set to search for.
+ * @param cb The callback to pass card data to.
  */
 function fromSet(code, cb) {
     APIRequest("/cards/search?order=set&q=%2B%2Be%3A" + code, function (resp) {
@@ -98,6 +98,18 @@ function fromSet(code, cb) {
     }, true);
 }
 exports.fromSet = fromSet;
+/**
+ * Fetches a random card.
+ * @param cb The callback to pass card data to.
+ * @param format The format to retrieve this card as.
+ */
+function randomCard(cb, format) {
+    if (format === void 0) { format = "json"; }
+    APIRequest("/cards/random", function (resp) {
+        cb(resp);
+    });
+}
+exports.randomCard = randomCard;
 var scryfallMethods = {
     fromSet: fromSet,
     allSets: allSets,
@@ -108,9 +120,9 @@ var scryfallMethods = {
 exports.Scryfall = scryfallMethods;
 /**
  * Makes a request to the Scryfall API.
- * @param uri - The path to request, including any query parameters.
- * @param cb - The callback to invoke when the request has completed.
- * @param preserve - Whether or not to preserve the original response structure from this request.
+ * @param uri The path to request, including any query parameters.
+ * @param cb The callback to invoke when the request has completed.
+ * @param preserve Whether or not to preserve the original response structure from this request.
  */
 function APIRequest(uri, cb, preserve, _partialData) {
     if (preserve === void 0) { preserve = false; }
