@@ -84,7 +84,7 @@ describe("Scryfall", () => {
     });
 
     describe("#fromSet()", () => {
-        it("Return an array cards from the specified set.", (done) => {
+        it("Return an array of cards from the specified set.", (done) => {
             scryfall.fromSet("bfz", (cards) => {
                 assert.ok(cards.length > 0, "No cards were found for the specified set.");
                 done();
