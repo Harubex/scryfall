@@ -2,12 +2,11 @@
 
 This module wraps the Scryfall API into a small, easy to use library.
 
-I'm still
+I'm still adding to this, so if there's any features you'd like to see done or done better, feel free to let me know.
 
+## Example usage
 
-## Example usage:
-
-### Finding a card.
+### Finding a card:
 
 ```javascript
 // Requiring.
@@ -60,7 +59,7 @@ scryfall.getCard("44012bb8-17b7-4b50-a796-662ef09bfc29", (err, card) => {
 });
 ```
 
-### Finding cards from a particular set.
+### Finding cards from a particular set:
 
 ```javascript
 scryfall.fromSet("hml", (cards) => {
