@@ -16,9 +16,10 @@ function autocomplete(token, cb) {
 exports.autocomplete = autocomplete;
 function getCard(first, second, cb) {
     var firstType = typeof (first);
+    var secondType = isNaN(parseInt(second)) ? typeof (second) : "number";
     var url = "/cards/";
     var err = null;
-    switch (typeof (second)) {
+    switch (secondType) {
         case "function":
             if (firstType !== "string") {
                 err = "The given Scryfall id is invalid";
@@ -28,7 +29,7 @@ function getCard(first, second, cb) {
                 cb = second;
             }
             break;
-        case "string":
+        case "string" || false:
             if (second !== "mtgo" && second !== "multiverse") {
                 err = "Unable to determine the type of id being used";
             }

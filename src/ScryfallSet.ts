@@ -1,15 +1,19 @@
 /**
- * An interface describing data about the given set.
+ * A set, and information about it.
  */
 export interface ScryfallSet {
     /**
      * Object code - should equal set.
      */
-    object: string;
+    object: "set";
     /**
      * The three or four-letter set code for this set.
      */
     code: string;
+    /**
+     * Specified which set a promo or token set is included in.
+     */
+    parent_set_code: string;
     /**
      * The English name of this set.
      */
@@ -22,6 +26,18 @@ export interface ScryfallSet {
      * The type of set (code, expansion, masters, etc).
      */
     set_type: string;
+    /**
+     * The block this set is part of.
+     */
+    block: string;
+    /**
+     * Whether or not this is an all-foil set.
+     */
+    foil: boolean;
+    /**
+     * Whether or not this set is only available in digital form.
+     */
+    digital: false;
     /**
      * The number of cards in this set.
      */

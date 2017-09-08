@@ -24,7 +24,7 @@ describe("Scryfall", () => {
 
     describe("#getCardByCollectorCode(string, number)", () => {
         it("Returns information about a particular card by it's set code and colector number.", (done) => {
-            scryfall.getCard("bfz", 29, (err, card) => {
+            scryfall.getCard("bfz", "29", (err, card) => {
                 if (err) {
                     assert.fail(null, err, err.message);
                 } else {
