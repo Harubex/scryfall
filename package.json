@@ -1,7 +1,7 @@
 {
     "name": "scryfall",
     "description": "A simple wrapper around Scryfall's public API.",
-    "version": "0.0.9",
+    "version": "0.1.0",
     "author": {
         "name": "ryan",
         "email": "ryan@harubex.com",
@@ -13,6 +13,7 @@
     },
     "license": "MIT",
     "main": "./build/scryfall.js",
+    "types": "./build/scryfall.d.ts",
     "devDependencies": {
         "@types/node": "^8.0.19",
         "mocha": "^3.5.0"

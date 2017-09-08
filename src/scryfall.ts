@@ -49,9 +49,10 @@ export function getCard(scryfallId: string, cb: (err: Error, card?: ScryfallCard
 
 export function getCard(first?: number | string, second?: any, cb?: (err: Error, card?: ScryfallCard) => void): void {
     let firstType = typeof (first);
+    let secondType = isNaN(parseInt(second)) ? typeof (second) : "number";
     let url = "/cards/";
     let err = null;
-    switch (typeof (second)) {
+    switch (secondType) {
         case "function": // This will be a scryfall id lookup.
             if (firstType !== "string") {
                 err = "The given Scryfall id is invalid";
@@ -60,7 +61,7 @@ export function getCard(first?: number | string, second?: any, cb?: (err: Error,
                 cb = second;
             }
             break;
-        case "string": // This will be a lookup by a multiverse or mtgo id.
+        case "string" || false: // This will be a lookup by a multiverse or mtgo id.
             if (second !== "mtgo" && second !== "multiverse") {
                 err = "Unable to determine the type of id being used";
             } else {
