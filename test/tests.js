@@ -24,11 +24,11 @@ describe("Scryfall", () => {
 
     describe("#getCardByCollectorCode(string, number)", () => {
         it("Returns information about a particular card by it's set code and colector number.", (done) => {
-            scryfall.getCard("bfz", "29", (err, card) => {
+            scryfall.getCard("e01", "1★", (err, card) => {
                 if (err) {
                     assert.fail(null, err, err.message);
                 } else {
-                    assert.equal(card.name, "Gideon, Ally of Zendikar", "The returned card is incorrect.");
+                    assert.equal(card.name, "Because I Have Willed It", "The returned card is incorrect.");
                 }
                 done();
             });

@@ -72,7 +72,7 @@ export function getCard(first?: number | string, second?: any, cb?: (err: Error,
             if (firstType !== "string") {
                 err = "Unable to determine set code/collector number being used."
             } else {
-                url += `${first}/${second}`;
+                url += `${first}/${encodeURIComponent(second)}`;
             }
             break;
     }

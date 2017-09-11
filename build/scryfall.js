@@ -42,7 +42,7 @@ function getCard(first, second, cb) {
                 err = "Unable to determine set code/collector number being used.";
             }
             else {
-                url += first + "/" + second;
+                url += first + "/" + encodeURIComponent(second);
             }
             break;
     }
