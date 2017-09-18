@@ -1,7 +1,7 @@
 {
     "name": "scryfall",
     "description": "A simple wrapper around Scryfall's public API.",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "author": {
         "name": "ryan",
         "email": "ryan@harubex.com",

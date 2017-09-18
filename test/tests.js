@@ -4,6 +4,15 @@ const mocha = require("mocha");
 const scryfall = require("../build/scryfall");
 
 describe("Scryfall", () => {
+    describe("#allCards", () => {
+        it("Returns a page from the list of all recorded cards.", (done) => {
+            scryfall.getAllCards(1, (cards) => {
+                assert.ok(cards.length > 0, "No cards were found for the specified set.");
+                done();
+            });
+        }).timeout(0);
+    });
+
     describe("#allSets()", () => {
         it("Return an array of all available sets.", (done) => {
             scryfall.allSets((sets) => {

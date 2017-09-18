@@ -14,6 +14,15 @@ function autocomplete(token, cb) {
     }, true);
 }
 exports.autocomplete = autocomplete;
+/**
+ * Fetches a specified page of cards from the list of all recorded cards.
+ * @param page The page to retrieve.
+ * @param cb The callback ot pass card info to.
+ */
+function getAllCards(page, cb) {
+    APIRequest("/cards?page=" + page, cb, true, [], true);
+}
+exports.getAllCards = getAllCards;
 function getCard(first, second, cb) {
     var firstType = typeof (first);
     var secondType = isNaN(parseInt(second)) ? typeof (second) : "number";
@@ -124,10 +133,12 @@ exports.Scryfall = scryfallMethods;
  * @param uri The path to request, including any query parameters.
  * @param cb The callback to invoke when the request has completed.
  * @param preserve Whether or not to preserve the original response structure from this request.
+ * @param page Whether or not to return data as pages.
  */
-function APIRequest(uri, cb, preserve, _partialData) {
+function APIRequest(uri, cb, preserve, _partialData, page) {
     if (preserve === void 0) { preserve = false; }
     if (_partialData === void 0) { _partialData = []; }
+    if (page === void 0) { page = false; }
     var parsedUrl = url.parse(uri);
     var query = qs.parse(parsedUrl.query);
     if (!query.format) {
@@ -150,7 +161,7 @@ function APIRequest(uri, cb, preserve, _partialData) {
             try {
                 var jsonResp = JSON.parse(responseData);
                 _partialData = _partialData.concat(jsonResp.data || jsonResp);
-                if (jsonResp.has_more) {
+                if (!page && jsonResp.has_more && jsonResp.data.length > 0) {
                     APIRequest(jsonResp.next_page, cb, preserve, _partialData);
                 }
                 else {

@@ -17,6 +17,15 @@ export function autocomplete(token: string, cb: (matches: Array<string>) => void
 }
 
 /**
+ * Fetches a specified page of cards from the list of all recorded cards.
+ * @param page The page to retrieve.
+ * @param cb The callback ot pass card info to.
+ */
+export function getAllCards(page: number, cb: (cards: ScryfallCard[]) => void) {
+    APIRequest(`/cards?page=${page}`, cb, true, [], true);
+}
+
+/**
  * Gets a card by its set code and collector number. Only available for cards that have collector numbers.
  * @param code The set code for this card.
  * @param number The collector number for this card.
@@ -153,8 +162,9 @@ export { scryfallMethods as Scryfall };
  * @param uri The path to request, including any query parameters.
  * @param cb The callback to invoke when the request has completed.
  * @param preserve Whether or not to preserve the original response structure from this request.
+ * @param page Whether or not to return data as pages.
  */
-function APIRequest(uri: string, cb: (res: any) => void, preserve: boolean = false, _partialData = []) {
+function APIRequest(uri: string, cb: (res: any) => void, preserve: boolean = false, _partialData = [], page: boolean = false) {
     let parsedUrl = url.parse(uri);
     let query = qs.parse(parsedUrl.query);
     if (!query.format) {
@@ -177,7 +187,7 @@ function APIRequest(uri: string, cb: (res: any) => void, preserve: boolean = fal
             try {
                 let jsonResp = JSON.parse(responseData);
                 _partialData = _partialData.concat(jsonResp.data || jsonResp);
-                if (jsonResp.has_more) {
+                if (!page && jsonResp.has_more && jsonResp.data.length > 0) {
                     APIRequest(jsonResp.next_page, cb, preserve, _partialData);
                 }
                 else {
