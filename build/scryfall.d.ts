@@ -7,6 +7,12 @@ import { ScryfallCard } from "./ScryfallCard";
  */
 export declare function autocomplete(token: string, cb: (matches: Array<string>) => void): void;
 /**
+ * Fetches a specified page of cards from the list of all recorded cards.
+ * @param page The page to retrieve.
+ * @param cb The callback ot pass card info to.
+ */
+export declare function getAllCards(page: number, cb: (cards: ScryfallCard[]) => void): void;
+/**
  * Gets a card by its set code and collector number. Only available for cards that have collector numbers.
  * @param code The set code for this card.
  * @param number The collector number for this card.
