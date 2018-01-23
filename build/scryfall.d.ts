@@ -1,5 +1,6 @@
 import { ScryfallSet } from "./ScryfallSet";
 import { ScryfallCard } from "./ScryfallCard";
+import { ScryfallError } from "./ScryfallError";
 /**
  * Attempts to autocomplete the specified token, returning a list of possible matches.
  * @param token The token to search for.
@@ -18,27 +19,27 @@ export declare function getAllCards(page: number, cb: (cards: ScryfallCard[]) =>
  * @param number The collector number for this card.
  * @param cb The callback to pass card data to.
  */
-export declare function getCard(code: string, number: number, cb: (err: Error, card?: ScryfallCard) => void): void;
+export declare function getCard(code: string, number: number, cb: (err: ScryfallError, card?: ScryfallCard) => void): void;
 /**
  * Gets a card by its multiverse id. Only available to cards that have multiverse ids.
  * @param multiverseId The multiverse id for this card.
  * @param type The type of this id. Must be the string literal "multiverse".
  * @param cb The callback to pass card data to.
  */
-export declare function getCard(multiverseId: number, type: "multiverse", cb: (err: Error, card?: ScryfallCard) => void): void;
+export declare function getCard(multiverseId: number, type: "multiverse", cb: (err: ScryfallError, card?: ScryfallCard) => void): void;
 /**
  * Gets a card by its Magic Online id. Only available to cards that exist on Magic Online.
  * @param multiverseId The Magic Online id for this card.
  * @param type The type of this id. Must be the string literal "mtgo".
  * @param cb The callback to pass card data to.
  */
-export declare function getCard(mtgoId: number, type: "mtgo", cb: (err: Error, card?: ScryfallCard) => void): void;
+export declare function getCard(mtgoId: number, type: "mtgo", cb: (err: ScryfallError, card?: ScryfallCard) => void): void;
 /**
  * Gets a card by its Scryfall id. Available to every card fetchable through this API. It'd be kind of weird if it wasn't.
  * @param scryfallId The Scryfall id for this card.
  * @param cb The callback to pass card data to.
  */
-export declare function getCard(scryfallId: string, cb: (err: Error, card?: ScryfallCard) => void): void;
+export declare function getCard(scryfallId: string, cb: (err: ScryfallError, card?: ScryfallCard) => void): void;
 /**
  * Gets all versions of a card with the specified name.
  * @param name The card name to search for.
@@ -68,10 +69,10 @@ declare const scryfallMethods: {
     autocomplete: (token: string, cb: (matches: string[]) => void) => void;
     cardVersions: (name: string, cb: (cards: ScryfallCard[]) => void) => void;
     getCard: {
-        (code: string, number: number, cb: (err: Error, card?: ScryfallCard) => void): void;
-        (multiverseId: number, type: "multiverse", cb: (err: Error, card?: ScryfallCard) => void): void;
-        (mtgoId: number, type: "mtgo", cb: (err: Error, card?: ScryfallCard) => void): void;
-        (scryfallId: string, cb: (err: Error, card?: ScryfallCard) => void): void;
+        (code: string, number: number, cb: (err: ScryfallError, card?: ScryfallCard) => void): void;
+        (multiverseId: number, type: "multiverse", cb: (err: ScryfallError, card?: ScryfallCard) => void): void;
+        (mtgoId: number, type: "mtgo", cb: (err: ScryfallError, card?: ScryfallCard) => void): void;
+        (scryfallId: string, cb: (err: ScryfallError, card?: ScryfallCard) => void): void;
     };
 };
 export { scryfallMethods as Scryfall };

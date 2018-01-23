@@ -4,6 +4,7 @@ import * as url from "url";
 import { ScryfallListResponse } from "./ScryfallResponses";
 import { ScryfallSet } from "./ScryfallSet";
 import { ScryfallCard } from "./ScryfallCard";
+import { ScryfallError } from "./ScryfallError";
 
 /**
  * Attempts to autocomplete the specified token, returning a list of possible matches.
@@ -31,7 +32,7 @@ export function getAllCards(page: number, cb: (cards: ScryfallCard[]) => void) {
  * @param number The collector number for this card.
  * @param cb The callback to pass card data to.
  */
-export function getCard(code: string, number: number, cb: (err: Error, card?: ScryfallCard) => void): void;
+export function getCard(code: string, number: number, cb: (err: ScryfallError, card?: ScryfallCard) => void): void;
 
 /**
  * Gets a card by its multiverse id. Only available to cards that have multiverse ids.
@@ -39,7 +40,7 @@ export function getCard(code: string, number: number, cb: (err: Error, card?: Sc
  * @param type The type of this id. Must be the string literal "multiverse".
  * @param cb The callback to pass card data to.
  */
-export function getCard(multiverseId: number, type: "multiverse", cb: (err: Error, card?: ScryfallCard) => void): void;
+export function getCard(multiverseId: number, type: "multiverse", cb: (err: ScryfallError, card?: ScryfallCard) => void): void;
 
 /**
  * Gets a card by its Magic Online id. Only available to cards that exist on Magic Online.
@@ -47,18 +48,18 @@ export function getCard(multiverseId: number, type: "multiverse", cb: (err: Erro
  * @param type The type of this id. Must be the string literal "mtgo".
  * @param cb The callback to pass card data to.
  */
-export function getCard(mtgoId: number, type: "mtgo", cb: (err: Error, card?: ScryfallCard) => void): void;
+export function getCard(mtgoId: number, type: "mtgo", cb: (err: ScryfallError, card?: ScryfallCard) => void): void;
 
 /**
  * Gets a card by its Scryfall id. Available to every card fetchable through this API. It'd be kind of weird if it wasn't.
  * @param scryfallId The Scryfall id for this card.
  * @param cb The callback to pass card data to.
  */
-export function getCard(scryfallId: string, cb: (err: Error, card?: ScryfallCard) => void): void;
+export function getCard(scryfallId: string, cb: (err: ScryfallError, card?: ScryfallCard) => void): void;
 
-export function getCard(first?: number | string, second?: any, cb?: (err: Error, card?: ScryfallCard) => void): void {
+export function getCard(first?: number | string, second?: any, cb?: (err: ScryfallError, card?: ScryfallCard) => void): void {
     let firstType = typeof (first);
-    let secondType = isNaN(parseInt(second)) ? typeof (second) : "number";
+    let secondType = isNaN(parseInt(second.replace ? second.replace(/[^0-9]/g, "") : second)) ? typeof (second) : "number";
     let url = "/cards/";
     let err = null;
     switch (secondType) {
@@ -90,9 +91,10 @@ export function getCard(first?: number | string, second?: any, cb?: (err: Error,
     } else {
         APIRequest(url, (cardData) => {
             if (cardData.object === "error") {
-                cb(new Error(`API call failed: ${cardData.details}`));
+                cb(cardData as ScryfallError);
             } else if (cardData.object === "list") {
-                cb(new Error("Request returned more than one result check your parameters."), cardData);
+                console.warn("Scryfall card request returned more than one result - check your parameters.");
+                cb(null, cardData);
             } else {
                 cb(null, cardData);
             }
