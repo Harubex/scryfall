@@ -25,11 +25,11 @@ function getAllCards(page, cb) {
 exports.getAllCards = getAllCards;
 function getCard(first, second, cb) {
     var firstType = typeof (first);
-    var secondType = isNaN(parseInt(second)) ? typeof (second) : "number";
+    var secondType = isNaN(parseInt(second.replace ? second.replace(/[^0-9]/g, "") : second)) ? typeof (second) : "number";
     var url = "/cards/";
     var err = null;
     switch (secondType) {
-        case "function":
+        case "function":// This will be a scryfall id lookup.
             if (firstType !== "string") {
                 err = "The given Scryfall id is invalid";
             }
@@ -38,7 +38,7 @@ function getCard(first, second, cb) {
                 cb = second;
             }
             break;
-        case "string" || false:
+        case "string" || false:// This will be a lookup by a multiverse or mtgo id.
             if (second !== "mtgo" && second !== "multiverse") {
                 err = "Unable to determine the type of id being used";
             }
@@ -46,7 +46,7 @@ function getCard(first, second, cb) {
                 url += second + "/" + first;
             }
             break;
-        case "number":
+        case "number":// This will be a lookup by a set/collector pair.
             if (firstType !== "string") {
                 err = "Unable to determine set code/collector number being used.";
             }
@@ -61,10 +61,11 @@ function getCard(first, second, cb) {
     else {
         APIRequest(url, function (cardData) {
             if (cardData.object === "error") {
-                cb(new Error("API call failed: " + cardData.details));
+                cb(cardData);
             }
             else if (cardData.object === "list") {
-                cb(new Error("Request returned more than one result check your parameters."), cardData);
+                console.warn("Scryfall card request returned more than one result - check your parameters.");
+                cb(null, cardData);
             }
             else {
                 cb(null, cardData);
