@@ -1,5 +1,7 @@
+import { ScryfallSetType } from "./ScryfallSetType";
+
 /**
- * A set, and information about it.
+ * A Set object represents a group of related Magic cards. All cards on Scryfall belong to exactly one set.
  */
 export interface ScryfallSet {
     /**
@@ -7,47 +9,55 @@ export interface ScryfallSet {
      */
     object: "set";
     /**
-     * The three or four-letter set code for this set.
+     * The unique three or four-letter code for this set. Officially released sets always have a three-letter set code; four-letter set codes exist simply for categorization purposes.
      */
     code: string;
     /**
-     * Specified which set a promo or token set is included in.
+     * The unique code for this set on Magic Online, which may differ from the regular code.
      */
-    parent_set_code: string;
+    mtgo_code: string;
     /**
-     * The English name of this set.
+     * The English name of the set.
      */
     name: string;
     /**
-     * The date the set was released (in GMT-8 Pacific time).
+     * The type of set (e.g. core, expansion, masters).
      */
-    released_at: Date;
+    set_type: ScryfallSetType;
     /**
-     * The type of set (code, expansion, masters, etc).
+     * The date the set was released (in GMT-8 Pacific time). Not all sets have a known release date.
      */
-    set_type: string;
+    released_at?: Date;
     /**
-     * The block this set is part of.
+     * The block code for this set, if any.
      */
-    block: string;
+    block_code?: string;
     /**
-     * Whether or not this is an all-foil set.
+     * The block or group name code for this set, if any.
      */
-    foil: boolean;
+    block?: string;
     /**
-     * Whether or not this set is only available in digital form.
+     * The set code for the parent set, if any. Promo and Token sets often have a parent set.
      */
-    digital: false;
+    parent_set_code: string;
     /**
      * The number of cards in this set.
      */
     card_count: number;
     /**
+     * True if this set was only released on Magic Online.
+     */
+    digital: boolean;
+    /**
+     * True if this set contains only foil cards.
+     */
+    foil_only: boolean;
+    /**
      * A URI to an SVG file for this set’s icon on Scryfall’s CDN.
      */
     icon_svg_uri: string;
     /**
-     * A Scryfall API URI that you can request to begin paginating over the cards in this set.
+     * A Scryfall API URI that you can request to begin paging through the cards in this set.
      */
     search_uri: string;
 }
