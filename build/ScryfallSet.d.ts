@@ -1,4 +1,4 @@
-import { ScryfallSetTypes } from "./ScryfallSetTypes";
+import { ScryfallSetType } from "./ScryfallSetType";
 /**
  * A Set object represents a group of related Magic cards. All cards on Scryfall belong to exactly one set.
  */
@@ -22,7 +22,7 @@ export interface ScryfallSet {
     /**
      * The type of set (e.g. core, expansion, masters).
      */
-    set_type: ScryfallSetTypes;
+    set_type: ScryfallSetType;
     /**
      * The date the set was released (in GMT-8 Pacific time). Not all sets have a known release date.
      */

@@ -7,15 +7,15 @@ export interface ScryfallError {
      */
     object: "error";
     /**
-     * The numeric status code for this error.
+     * An integer HTTP status code for this error.
      */
     status: number;
     /**
-     * The reason phrase for this error.
+     * A computer-friendly string representing the appropriate HTTP status code.
      */
     code: string;
     /**
-     * A brief explanation of this error.
+     * A human-readable string explaining the error.
      */
     details: string;
     /**
@@ -25,5 +25,5 @@ export interface ScryfallError {
     /**
      * Any non-failure warnings gernerated, if any.
      */
-    warnings?: Array<string>;
+    warnings?: string[];
 }
