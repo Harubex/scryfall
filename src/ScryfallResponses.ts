@@ -19,5 +19,5 @@ export interface ScryfallListResponse<T> {
     /**
      * An array of the requested objects, in a specific order.
      */
-    data: Array<T>;
+    data: T[];
 }

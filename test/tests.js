@@ -78,6 +78,17 @@ describe("Scryfall", () => {
         });
     });
 
+    describe("#getCardByMtgo(number) => Promise", () => {
+        it("Returns information about a particular card by it's mtgo id.", async () => {
+            try {
+                const card = await scryfall.getCard(54957, "mtgo");
+                assert.equal(card.name, "Ghost Quarter", "The returned card is incorrect.");
+            } catch (err) {
+                assert.fail(null, err, err.message);
+            }
+        });
+    });
+
     describe("#getCardByScryfall(string)", () => {
         it("Returns information about a particular card by it's scryfall id.", (done) => {
             scryfall.getCard("44012bb8-17b7-4b50-a796-662ef09bfc29", (err, card) => {
@@ -88,6 +99,17 @@ describe("Scryfall", () => {
                 }
                 done();
             });
+        }).timeout(0);
+    });
+    
+    describe("#getCardByScryfall(string) => Promise", () => {
+        it("Returns information about a particular card by it's scryfall id.", async () => {
+            try {
+            const card = await scryfall.getCard("44012bb8-17b7-4b50-a796-662ef09bfc29");
+            assert.equal(card.name, "Bamboozle", "The returned card is incorrect.");
+            } catch (err) { 
+                assert.fail(null, err, err.message);
+            }                    
         }).timeout(0);
     });
 

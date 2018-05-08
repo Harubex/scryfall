@@ -1,7 +1,11 @@
+import { ScryfallCardFace } from "./ScryfallCardFace";
 import { ScryfallRuling } from "./ScryfallRuling";
 import { ScryfallLayout } from "./ScryfallLayout";
+import { ScryfallImages } from "./ScryfallImages";
 import { ScryfallColor } from "./ScryfallColor";
-import { ScryfallCardFace } from "./ScryfallCardFace";
+import { ScryfallUUID } from "./ScryfallUUID";
+import { ScryfallURI } from "./ScryfallURI";
+
 
 /**
  * Card objects represent individual Magic cards that players can obtain and add to their collection (with a few minor exceptions).
@@ -106,7 +110,7 @@ export interface ScryfallCard {
      */
     color_identity: ScryfallColor[];
     /**
-     * @deprecated Use card_faces instead.
+     * An array of cards related to this card, if any.
      */
     all_parts?: ScryfallCardFace[];
     /**
@@ -114,10 +118,11 @@ export interface ScryfallCard {
      */
     card_faces?: ScryfallCardFace[];
     /**
-     * An object describing the legality of this card.
+     * An object describing the legality of this card in various formats.
      */
     legalities: {
         standard: Legality,
+        future: Legality,
         frontier: Legality,
         modern: Legality,
         pauper: Legality,
@@ -127,6 +132,7 @@ export interface ScryfallCard {
         duel: Legality,
         commander: Legality,
         "1v1": Legality,
+        brawl: Legality
     };
     /**
      * Whether or not this card is on the Reserved List.
@@ -171,46 +177,7 @@ export interface ScryfallCard {
     /**
      * An object listing available imagery for this card, if any.
      */
-    image_uris?: {
-        /**
-         * A small full card image. Designed for use as thumbnail or list icon. 
-         * Size: 146 x 204 
-         * Format: jpg
-         */
-        small: ScryfallURI,
-        /**
-         * A medium-sized full card image.
-         * Size: 488 × 680
-         * Format: jpg
-         */
-        normal: ScryfallURI,
-        /**
-         * A large full card image.
-         * Size: 672 × 936
-         * Format: jpg
-         */
-        large: ScryfallURI,
-        /**
-         * A transparent, rounded full card PNG. This is the best image to use for videos or other high-quality content.
-         * Size: 745 × 1040
-         * Format: png
-         */
-        png: ScryfallURI,
-        /**
-         * A rectangular crop of the card’s art only. 
-         * Not guaranteed to be perfect for cards with outlier designs or strange frame arrangements. 
-         * Size: Varies 
-         * Format: jpg
-         */
-        art_crop: ScryfallURI,
-        /**
-         * A full card image with the rounded corners and the majority of the border cropped off. 
-         * Designed for dated contexts where rounded images can’t be used. 
-         * Size: 480 × 680 
-         * Format: jpg
-         */
-        border_crop: ScryfallURI
-    };
+    image_uris?: ScryfallImages;
     /**
      * Whether or not this card’s imagery is high resolution.
      */
@@ -239,48 +206,124 @@ export interface ScryfallCard {
      * A unique identifier for the card artwork that remains consistent across reprints. Newly spoiled cards may not have this field yet.
      */
     illustration_id?: ScryfallUUID;
-    frame: string;
+    /**
+     * This card’s frame layout.
+     */
+    frame: "1993" | "1997" | "2003" | "2015" | "future"
+    /**
+     * True if this card’s artwork is larger than normal.
+     */
     full_art: boolean;
+    /**
+     * This card’s watermark, if any.
+     */
     watermark?: string;
-
-
-
-
-
-
-
-    image_uri: string;
-    set_uri: string;
-    scryfall_set_uri: string;
-
-    border_color: string;
+    /**
+     * This card’s border color.
+     */
+    border_color: "black" | "borderless" | "gold" | "silver" | "white";
+    /**
+     * This card’s story spotlight number, if any.
+     */
+    story_spotlight_number?: number;
+    /**
+     * A URL to this cards’s story article, if any.
+     */
+    story_spotlight_uri?: ScryfallURI;
+    /**
+     * Whether or not this card is timeshifted.
+     */
     timeshifted: boolean;
+    /**
+     * Whether or not this card is colorshifted.
+     */
     colorshifted: boolean;
+    /**
+     * Whether or not this card is from the future (i.e. a future-bordered card from Time Spiral block).
+     */
     futureshifted: boolean;
-    story_spotlight_number: number;
-    story_spotlight_uri: string;
-    usd: string;
-    tix: string;
-    eur: string;
+
+    // Undocumented?
+
+    /**
+     * A URI for the set that contains this card.
+     */
+    set_uri: ScryfallURI;
+    /**
+     * A link to this card’s set's permapage on Scryfall’s website.
+     */
+    scryfall_set_uri: ScryfallURI;
+    /**
+     * The current price of this card in USD, if any. Does not exist for digital-only cards.
+     */
+    usd?: string;
+    /**
+     * The current price of this card in EUR, if any. Does not exist for digital-only cards.
+     */
+    eur?: string;
+    /**
+     * The current price of this card in Magic Online Tickets, if any. Does not exist for print-only cards.
+     */
+    tix?: string;
+    /**
+     * Links to external resources for this card.
+     */
     related_uris: {
-        gatherer: string,
-        tcgplayer_decks: string,
-        edhrec: string,
-        mtgtop8: string
+        /**
+         * The Gatherer link for this card.
+         */
+        gatherer: ScryfallURI,
+        /**
+         * A link to deck on TCGPlayer containing this card.
+         */
+        tcgplayer_decks: ScryfallURI,
+        /**
+         * The Edhrec link for this card.
+         */
+        edhrec: ScryfallURI,
+        /**
+         * The Mtgtop8 link for this card.
+         */
+        mtgtop8: ScryfallURI
     },
+    /**
+     * Links to external sites where this card can be purchased.
+     */
     purchase_uris: {
-        amazon: string,
-        ebay: string,
-        tcgplayer: string,
-        magiccardmarket: string,
-        cardhoarder: string,
-        card_kingdom: string,
-        mtgo_traders: string,
-        coolstuffinc: string
+        /**
+         * A link to this card on Amazon.
+         */
+        amazon: ScryfallURI,
+        /**
+         * A link to this card on Ebay.
+         */
+        ebay: ScryfallURI,
+        /**
+         * A link to this card on TCGPlayer.
+         */
+        tcgplayer: ScryfallURI,
+        /**
+         * A link to this card on MagicCardMarket.
+         */
+        magiccardmarket: ScryfallURI,
+        /**
+         * A link to this card on Cardhoarder.
+         */
+        cardhoarder: ScryfallURI,
+        /**
+         * A link to this card on Card Kingdom.
+         */
+        card_kingdom: ScryfallURI,
+        /**
+         * A link to this card on MTGO Traders.
+         */
+        mtgo_traders: ScryfallURI,
+        /**
+         * A link to this card on CoolStuffInc.
+         */
+        coolstuffinc: ScryfallURI
     }
 
 }
 
 export type Legality = "legal" | "not_legal" | "banned" | "restricted";
-export type ScryfallURI = string;
-export type ScryfallUUID = string;

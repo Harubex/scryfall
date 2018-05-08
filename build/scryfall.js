@@ -23,6 +23,27 @@ function autocomplete(token, cb) {
     }
 }
 exports.autocomplete = autocomplete;
+function getRulings(first, second, cb) {
+    const ret = (cb) => {
+        let code = first;
+        let num = second;
+        if (typeof (first) !== "string") {
+            code = first.set;
+            num = first.collector_number;
+            cb = second;
+        }
+        APIRequest(`/cards/${code}/${num}`, (rulings) => {
+            cb(rulings);
+        }, true);
+    };
+    if (cb) {
+        ret(cb);
+    }
+    else {
+        return new Promise((resolve, reject) => ret(resolve));
+    }
+}
+exports.getRulings = getRulings;
 /**
  * Fetches a specified page of cards from the list of all recorded cards.
  * @param page The page to retrieve.
@@ -44,37 +65,43 @@ exports.getAllCards = getAllCards;
 function getCard(first, second, cb) {
     const ret = (res, rej) => {
         let firstType = typeof (first);
-        let secondType = isNaN(parseInt(second.replace ? second.replace(/[^0-9]/g, "") : second)) ? typeof (second) : "number";
+        let secondType = isNaN(parseInt((second && second.replace) ? second.replace(/[^0-9]/g, "") : second)) ? typeof (second) : "number";
         let url = "/cards/";
-        let err = null;
+        let err = new Error();
         switch (secondType) {
-            case "function":// This will be a scryfall id lookup.
+            case "undefined":
+            case "function": // This will be a scryfall id lookup.
                 if (firstType !== "string") {
-                    err = "The given Scryfall id is invalid";
+                    err.message = "The given Scryfall id is invalid";
                 }
                 else {
                     url += first;
-                    cb = second;
+                    if (typeof (second) === "function") {
+                        res = second;
+                    }
                 }
                 break;
-            case "string" || false:// This will be a lookup by a multiverse or mtgo id.
+            case "string": // This will be a lookup by a multiverse or mtgo id.
                 if (second !== "mtgo" && second !== "multiverse") {
-                    err = "Unable to determine the type of id being used";
+                    err.message = "Unable to determine the type of id being used";
                 }
                 else {
                     url += `${second}/${first}`;
                 }
                 break;
-            case "number":// This will be a lookup by a set/collector pair.
+            case "number": // This will be a lookup by a set/collector pair.
                 if (firstType !== "string") {
-                    err = "Unable to determine set code/collector number being used.";
+                    err.message = "Unable to determine set code/collector number being used.";
                 }
                 else {
                     url += `${first}/${encodeURIComponent(second)}`;
                 }
                 break;
+            default:
+                err.message = `Unable to parse arguments: ${secondType}`;
+                rej ? rej(err) : res(err);
         }
-        if (err) {
+        if (err && err.message) {
             rej ? rej(err) : res(err);
         }
         else {
@@ -92,7 +119,7 @@ function getCard(first, second, cb) {
             });
         }
     };
-    if (cb) {
+    if (cb || typeof (second) === "function") {
         ret(cb, undefined);
     }
     else {
@@ -187,7 +214,9 @@ const scryfallMethods = {
     allSets: allSets,
     autocomplete: autocomplete,
     cardVersions: cardVersions,
-    getCard: getCard
+    getCard: getCard,
+    getRulings: getRulings,
+    randomCard: randomCard
 };
 exports.Scryfall = scryfallMethods;
 /**

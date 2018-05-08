@@ -2,7 +2,7 @@
 
 This module wraps the Scryfall API into a small, easy to use library.
 
-I'm still adding to this, so if there's any features you'd like to see done or done better, feel free to let me know.
+Included with this module are Typescript definitions for each method declaration and every object returned from the API.
 
 ## Example usage
 
@@ -10,9 +10,11 @@ I'm still adding to this, so if there's any features you'd like to see done or d
 
 ```javascript
 // Requiring.
-let scryfall = require("scryfall");
+const scryfall = require("scryfall");
 // Using the import statement.
 import * as scryfall from "scryfall";
+// Alternative import method.
+import { Scryfall } from "scryfall";
 
 // Getting by set code and collector number.
 scryfall.getCard("bfz", 29, (err, card) => {
@@ -24,6 +26,12 @@ scryfall.getCard("bfz", 29, (err, card) => {
         // ...
     }
 });
+
+// You can also omit a callback to have the method reutrn a promise instead.
+const card = await scryfall.getCard("bfz", 29);
+console.log(card.name); // "Gideon, Ally of Zendikar"
+console.log(card.cmc); // 4
+
 
 // Getting by multiverse id.
 scryfall.getCard(83282, "multiverse", (err, card) => {

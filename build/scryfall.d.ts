@@ -1,6 +1,7 @@
 import { ScryfallSet } from "./ScryfallSet";
 import { ScryfallCard } from "./ScryfallCard";
 import { ScryfallError } from "./ScryfallError";
+import { ScryfallRuling } from "./ScryfallRuling";
 /**
  * Attempts to autocomplete the specified token, returning a list of possible matches.
  * @param token The token to search for.
@@ -8,6 +9,21 @@ import { ScryfallError } from "./ScryfallError";
  * @returns A promise, if no callback is specified. Otherwise nothing.
  */
 export declare function autocomplete(token: string, cb?: (matches: string[]) => void): Promise<string[]> | void;
+/**
+ * Fetches a list of rulings for the specified card.
+ * @param card The card object to retrieve rulings for.
+ * @param cb An optional callback to pass names to.
+ * @returns A promise, if no callback is specified. Otherwise nothing.
+ */
+export declare function getRulings(card: ScryfallCard, cb?: (rulings: ScryfallRuling[]) => void): Promise<ScryfallRuling[]> | void;
+/**
+ * Fetches a list of rulings for a card with the specified set/code.
+ * @param setCode The card set.
+ * @param cardNumber The card number.
+ * @param cb An optional callback to pass names to.
+ * @returns A promise, if no callback is specified. Otherwise nothing.
+ */
+export declare function getRulings(setCode: string, cardNumber: string, cb?: (rulings: ScryfallRuling[]) => void): Promise<ScryfallRuling[]> | void;
 /**
  * Fetches a specified page of cards from the list of all recorded cards.
  * @param page The page to retrieve.
@@ -79,5 +95,7 @@ declare const scryfallMethods: {
     autocomplete: typeof autocomplete;
     cardVersions: typeof cardVersions;
     getCard: typeof getCard;
+    getRulings: typeof getRulings;
+    randomCard: typeof randomCard;
 };
 export { scryfallMethods as Scryfall };
