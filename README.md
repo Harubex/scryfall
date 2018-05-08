@@ -27,7 +27,7 @@ scryfall.getCard("bfz", 29, (err, card) => {
     }
 });
 
-// You can also omit a callback to have the method reutrn a promise instead.
+// You can also omit a callback to have the method return a promise instead.
 const card = await scryfall.getCard("bfz", 29);
 console.log(card.name); // "Gideon, Ally of Zendikar"
 console.log(card.cmc); // 4
