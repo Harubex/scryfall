@@ -15,6 +15,10 @@ export interface ScryfallCard {
     // Core Fields
 
     /**
+     * Object field - should equal "card".
+     */
+    object: "card";
+    /**
      * A unique ID for this card in Scryfall’s database.
      */
     id: ScryfallUUID;

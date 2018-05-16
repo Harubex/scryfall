@@ -23,6 +23,32 @@ function autocomplete(token, cb) {
     }
 }
 exports.autocomplete = autocomplete;
+/**
+ * Fetches a card with the given name, if only one match if found. Fails on multiple matches.
+ * @param name The card name to search for, case-insensitive.
+ * @param fuzzy Whether to use a fuzzy or an exact search.
+ * @param cb An optional callback to pass card data to.
+ * @returns A promise, if no callback is specified. Otherwise nothing.
+ */
+function getCardByName(name, fuzzy = false, cb) {
+    const ret = (res, rej) => {
+        APIRequest(`/cards/named?${fuzzy ? "fuzzy" : "exact"}=${name}`, (card) => {
+            if (card.object === "error") {
+                rej ? rej(card) : res(card);
+            }
+            else {
+                rej ? res(card) : res(null, card);
+            }
+        });
+    };
+    if (cb) {
+        ret(cb, null);
+    }
+    else {
+        return new Promise((resolve, reject) => ret(resolve, reject));
+    }
+}
+exports.getCardByName = getCardByName;
 function getRulings(first, second, cb) {
     const ret = (cb) => {
         let code = first;
@@ -70,7 +96,7 @@ function getCard(first, second, cb) {
         let err = new Error();
         switch (secondType) {
             case "undefined":
-            case "function": // This will be a scryfall id lookup.
+            case "function":// This will be a scryfall id lookup.
                 if (firstType !== "string") {
                     err.message = "The given Scryfall id is invalid";
                 }
@@ -81,7 +107,7 @@ function getCard(first, second, cb) {
                     }
                 }
                 break;
-            case "string": // This will be a lookup by a multiverse or mtgo id.
+            case "string":// This will be a lookup by a multiverse or mtgo id.
                 if (second !== "mtgo" && second !== "multiverse") {
                     err.message = "Unable to determine the type of id being used";
                 }
@@ -89,7 +115,7 @@ function getCard(first, second, cb) {
                     url += `${second}/${first}`;
                 }
                 break;
-            case "number": // This will be a lookup by a set/collector pair.
+            case "number":// This will be a lookup by a set/collector pair.
                 if (firstType !== "string") {
                     err.message = "Unable to determine set code/collector number being used.";
                 }

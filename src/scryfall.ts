@@ -13,7 +13,7 @@ import { ScryfallRuling } from "./ScryfallRuling";
  * @param cb An optional callback to pass names to.
  * @returns A promise, if no callback is specified. Otherwise nothing.
  */
-export function autocomplete(token: string, cb?: (matches: string[]) => void): Promise<string[]> | void {
+export function autocomplete(token: string, cb?: (matches: string[]) => void): Promise<string[]> {
     const ret = (cb) => {
         APIRequest(`/cards/autocomplete?q=${token}`, (cards) => {
             cb(Array.isArray(cards) ? cards : [cards]);
@@ -27,12 +27,36 @@ export function autocomplete(token: string, cb?: (matches: string[]) => void): P
 }
 
 /**
+ * Fetches a card with the given name, if only one match if found. Fails on multiple matches.
+ * @param name The card name to search for, case-insensitive.
+ * @param fuzzy Whether to use a fuzzy or an exact search.
+ * @param cb An optional callback to pass card data to.
+ * @returns A promise, if no callback is specified. Otherwise nothing.
+ */
+export function getCardByName(name: string, fuzzy: boolean = false, cb?: (err: ScryfallError, card: ScryfallCard) => void): Promise<ScryfallCard> {
+    const ret = (res, rej) => {
+        APIRequest(`/cards/named?${fuzzy ? "fuzzy" : "exact"}=${name}`, (card: ScryfallError | ScryfallCard) => {
+            if (card.object === "error") {
+                rej ? rej(card) : res(card);
+            } else {
+                rej ? res(card) : res(null, card);
+            }
+        });
+    }
+    if (cb) {
+        ret(cb, null);
+    } else {
+        return new Promise<ScryfallCard>((resolve, reject) => ret(resolve, reject));
+    }
+}
+
+/**
  * Fetches a list of rulings for the specified card.
  * @param card The card object to retrieve rulings for.
  * @param cb An optional callback to pass names to.
  * @returns A promise, if no callback is specified. Otherwise nothing.
  */
-export function getRulings(card: ScryfallCard, cb?: (rulings: ScryfallRuling[]) => void): Promise<ScryfallRuling[]> | void;
+export function getRulings(card: ScryfallCard, cb?: (rulings: ScryfallRuling[]) => void): Promise<ScryfallRuling[]>;
 /**
  * Fetches a list of rulings for a card with the specified set/code.
  * @param setCode The card set.
@@ -40,8 +64,8 @@ export function getRulings(card: ScryfallCard, cb?: (rulings: ScryfallRuling[]) 
  * @param cb An optional callback to pass names to.
  * @returns A promise, if no callback is specified. Otherwise nothing.
  */
-export function getRulings(setCode: string, cardNumber: string, cb?: (rulings: ScryfallRuling[]) => void): Promise<ScryfallRuling[]> | void;
-export function getRulings(first: ScryfallCard | string, second?: any, cb?: (rulings: ScryfallRuling[]) => void): Promise<ScryfallRuling[]> | void {
+export function getRulings(setCode: string, cardNumber: string, cb?: (rulings: ScryfallRuling[]) => void): Promise<ScryfallRuling[]>;
+export function getRulings(first: ScryfallCard | string, second?: any, cb?: (rulings: ScryfallRuling[]) => void): Promise<ScryfallRuling[]> {
     const ret = (cb) => {
         let code = first;
         let num = second;
@@ -67,7 +91,7 @@ export function getRulings(first: ScryfallCard | string, second?: any, cb?: (rul
  * @param cb An optional callback to pass card data to.
  * @returns A promise, if no callback is specified. Otherwise nothing.
  */
-export function getAllCards(page: number, cb?: (cards: ScryfallCard[]) => void): Promise<ScryfallCard[]> | void {
+export function getAllCards(page: number, cb?: (cards: ScryfallCard[]) => void): Promise<ScryfallCard[]> {
     const ret = (cb) => {
         APIRequest(`/cards?page=${page}`, cb, true, [], true);
     };
@@ -85,7 +109,7 @@ export function getAllCards(page: number, cb?: (cards: ScryfallCard[]) => void):
  * @param cb An optional callback to pass card data to.
  * @returns A promise, if no callback is specified. Otherwise nothing.
  */
-export function getCard(code: string, number: number, cb?: (err: ScryfallError, card?: ScryfallCard) => void): Promise<ScryfallCard> | void;
+export function getCard(code: string, number: number, cb?: (err: ScryfallError, card?: ScryfallCard) => void): Promise<ScryfallCard>;
 
 /**
  * Gets a card by its multiverse id. Only available to cards that have multiverse ids.
@@ -94,7 +118,7 @@ export function getCard(code: string, number: number, cb?: (err: ScryfallError, 
  * @param cb An optional callback to pass card data to.
  * @returns A promise, if no callback is specified. Otherwise nothing.
  */
-export function getCard(multiverseId: number, type: "multiverse", cb?: (err: ScryfallError, card?: ScryfallCard) => void): Promise<ScryfallCard> | void;
+export function getCard(multiverseId: number, type: "multiverse", cb?: (err: ScryfallError, card?: ScryfallCard) => void): Promise<ScryfallCard>;
 
 /**
  * Gets a card by its Magic Online id. Only available to cards that exist on Magic Online.
@@ -103,7 +127,7 @@ export function getCard(multiverseId: number, type: "multiverse", cb?: (err: Scr
  * @param cb An optional callback to pass card data to.
  * @returns A promise, if no callback is specified. Otherwise nothing.
  */
-export function getCard(mtgoId: number, type: "mtgo", cb?: (err: ScryfallError, card?: ScryfallCard) => void): Promise<ScryfallCard> | void;
+export function getCard(mtgoId: number, type: "mtgo", cb?: (err: ScryfallError, card?: ScryfallCard) => void): Promise<ScryfallCard>;
 
 /**
  * Gets a card by its Scryfall id. Available to every card fetchable through this API. It'd be kind of weird if it wasn't.
@@ -111,9 +135,9 @@ export function getCard(mtgoId: number, type: "mtgo", cb?: (err: ScryfallError, 
  * @param cb An optional callback to pass card data to.
  * @returns A promise, if no callback is specified. Otherwise nothing.
  */
-export function getCard(scryfallId: string, cb?: (err: ScryfallError, card?: ScryfallCard) => void): Promise<ScryfallCard> | void;
+export function getCard(scryfallId: string, cb?: (err: ScryfallError, card?: ScryfallCard) => void): Promise<ScryfallCard>;
 
-export function getCard(first?: number | string, second?: any, cb?: (err: ScryfallError, card?: ScryfallCard) => void): Promise<ScryfallCard> | void {
+export function getCard(first?: number | string, second?: any, cb?: (err: ScryfallError, card?: ScryfallCard) => void): Promise<ScryfallCard> {
     const ret = (res, rej) => {
         let firstType = typeof (first);
         let secondType = isNaN(parseInt((second && second.replace) ? second.replace(/[^0-9]/g, "") : second)) ? typeof (second) : "number";
@@ -177,7 +201,7 @@ export function getCard(first?: number | string, second?: any, cb?: (err: Scryfa
  * @param cb An optional callback to pass card data to.
  * @returns A promise, if no callback is specified. Otherwise nothing.
  */
-export function cardVersions(name: string, cb?: (cards: ScryfallCard[]) => void): Promise<ScryfallCard[]> | void {
+export function cardVersions(name: string, cb?: (cards: ScryfallCard[]) => void): Promise<ScryfallCard[]> {
     const ret = (cb) => {
         APIRequest(`/cards/search?q=%2b%2b!%22${name}%22`, (cardData) => {
             cb(cardData);
@@ -195,7 +219,7 @@ export function cardVersions(name: string, cb?: (cards: ScryfallCard[]) => void)
  * @param cb An optional callback to pass set data to.
  * @returns A promise, if no callback is specified. Otherwise nothing.
  */
-export function allSets(cb?: (sets: ScryfallSet[]) => void): Promise<ScryfallSet[]> | void {
+export function allSets(cb?: (sets: ScryfallSet[]) => void): Promise<ScryfallSet[]> {
     const ret = (cb) => {
         APIRequest("/sets", (resp) => {
             for (let i = 0; i < resp.length; i++) {
@@ -217,7 +241,7 @@ export function allSets(cb?: (sets: ScryfallSet[]) => void): Promise<ScryfallSet
  * @param cb An optional callback to pass card data to.
  * @returns A promise, if no callback is specified. Otherwise nothing.
  */
-export function fromSet(code: string, cb?: (cards: ScryfallCard[]) => void): Promise<ScryfallCard[]> | void {
+export function fromSet(code: string, cb?: (cards: ScryfallCard[]) => void): Promise<ScryfallCard[]> {
     const ret = (cb) => {
         APIRequest(`/cards/search?order=set&q=%2B%2Be%3A${code}`, (resp) => {
             cb(resp);
@@ -236,7 +260,7 @@ export function fromSet(code: string, cb?: (cards: ScryfallCard[]) => void): Pro
  * @param cb An optional callback to pass card data to.
  * @returns A promise, if no callback is specified. Otherwise nothing.
  */
-export function randomCard(format: "json" | "image" | "text" = "json", cb?: (card: ScryfallCard) => void): Promise<ScryfallCard> | void {
+export function randomCard(format: "json" | "image" | "text" = "json", cb?: (card: ScryfallCard) => void): Promise<ScryfallCard> {
     const ret = (cb) => {
         APIRequest("/cards/random", (resp) => {
             cb(resp);
