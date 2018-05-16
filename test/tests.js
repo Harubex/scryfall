@@ -4,6 +4,29 @@ const mocha = require("mocha");
 const scryfall = require("../build/scryfall");
 
 describe("Scryfall", () => {
+    describe("#getCardByName", () => {
+        it("Returns a single card with the given name.", (done) => {
+            scryfall.getCardByName("jace, vryn", true, (err, card) => {
+                if (err) {
+                    console.log(err);
+                }
+                assert.ok(card, "No card was found with the given name.");
+                done();
+            });
+        }).timeout(0);
+    });
+
+    describe("#getCardByName => Promise", () => {
+        it("Returns a single card with the given name.", async () => {
+            try {
+                const card = await scryfall.getCardByName("gideon, ally", true);
+                assert.ok(card, "The returned card is incorrect.");
+            } catch (err) {
+                assert.fail(null, err, err.message);
+            }
+        }).timeout(0);
+    });
+
     describe("#allCards", () => {
         it("Returns a page from the list of all recorded cards.", (done) => {
             scryfall.getAllCards(1, (cards) => {
