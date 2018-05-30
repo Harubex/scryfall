@@ -6,7 +6,7 @@ const scryfall = require("../build/scryfall");
 describe("Scryfall", () => {
     describe("#getCardByName", () => {
         it("Returns a single card with the given name.", (done) => {
-            scryfall.getCardByName("jace, vryn", true, (err, card) => {
+            scryfall.getCardByName("jace, vryn's prodigy", false, (err, card) => {
                 if (err) {
                     console.log(err);
                 }

@@ -1,7 +1,7 @@
 {
     "name": "scryfall",
     "description": "A simple wrapper around Scryfall's public API.",
-    "version": "0.9.5",
+    "version": "0.9.6",
     "keywords": [
         "scryfall", "magic", "mtg"
     ],
