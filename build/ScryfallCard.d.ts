@@ -53,6 +53,14 @@ export interface ScryfallCard {
      */
     name: string;
     /**
+     * The name of this card, written in the card's language. If this card has multiple faces, this field will contain both names separated by " // ".
+     */
+    printed_name?: string;
+    /**
+     * The language this card was written in. Fields prefixed with "printed_" will contain text specific to this language.
+     */
+    lang?: string;
+    /**
      * A computer-readable designation for this card’s layout. The layout can be used to programmatically determine which other properties on a card you can expect.
      */
     layout: ScryfallLayout;
@@ -64,6 +72,14 @@ export interface ScryfallCard {
      * The type line of this card.
      */
     type_line: string;
+    /**
+     * The type line for this card, written in the card's language.
+     */
+    printed_type_line?: string;
+    /**
+     * The text on this card, written in the card's language.
+     */
+    printed_text?: string;
     /**
      * The Oracle text for this card, if any.
      */
