@@ -153,4 +153,15 @@ describe("Scryfall", () => {
             });
         }).timeout(0);
     });
+
+    describe("#getRuling() => Promise", () => {
+        it("Returns rulings for a particular card by its scryfall id.", async () => {
+            try {
+                const rulings = await scryfall.getRulings("f2b9983e-20d4-4d12-9e2c-ec6d9a345787");
+                assert.notEqual(rulings, null);
+            } catch (err) { 
+                assert.fail(null, err, err.message);
+            }     
+        });
+    })
 });

@@ -50,23 +50,51 @@ function getCardByName(name, fuzzy = false, cb) {
 }
 exports.getCardByName = getCardByName;
 function getRulings(first, second, cb) {
-    const ret = (cb) => {
-        let code = first;
-        let num = second;
-        if (typeof (first) !== "string") {
-            code = first.set;
-            num = first.collector_number;
-            cb = second;
+    const ret = (res, rej) => {
+        let identifier = "";
+        const err = new Error("Invalid parameters given.");
+        if (cb) {
+            identifier = `${first}/${second}`;
         }
-        APIRequest(`/cards/${code}/${num}`, (rulings) => {
-            cb(rulings);
+        else if (typeof first === "string") {
+            identifier = first;
+        }
+        else if (first.id) {
+            identifier = first.id;
+        }
+        else if (rej && typeof rej === "function") {
+            rej(err);
+        }
+        else {
+            res(err);
+        }
+        APIRequest(`/cards/${identifier}/rulings`, (rulings) => {
+            if (Array.isArray(rulings)) {
+                if (rej) {
+                    res(rulings);
+                }
+                else {
+                    res(null, rulings);
+                }
+            }
+            else {
+                if (rej) {
+                    rej(rulings);
+                }
+                else {
+                    res(rulings);
+                }
+            }
         }, true);
     };
     if (cb) {
         ret(cb);
     }
+    else if (typeof second === "function") {
+        ret(second);
+    }
     else {
-        return new Promise((resolve, reject) => ret(resolve));
+        return new Promise((resolve, reject) => ret(resolve, reject));
     }
 }
 exports.getRulings = getRulings;
@@ -90,24 +118,26 @@ function getAllCards(page, cb) {
 exports.getAllCards = getAllCards;
 function getCard(first, second, cb) {
     const ret = (res, rej) => {
-        let firstType = typeof (first);
-        let secondType = isNaN(parseInt((second && second.replace) ? second.replace(/[^0-9]/g, "") : second)) ? typeof (second) : "number";
+        let firstType = typeof first;
+        let secondType = isNaN(parseInt(second && second.replace ? second.replace(/[^0-9]/g, "") : second))
+            ? typeof second
+            : "number";
         let url = "/cards/";
         let err = new Error();
         switch (secondType) {
             case "undefined":
-            case "function":// This will be a scryfall id lookup.
+            case "function":
                 if (firstType !== "string") {
                     err.message = "The given Scryfall id is invalid";
                 }
                 else {
                     url += first;
-                    if (typeof (second) === "function") {
+                    if (typeof second === "function") {
                         res = second;
                     }
                 }
                 break;
-            case "string":// This will be a lookup by a multiverse or mtgo id.
+            case "string":
                 if (second !== "mtgo" && second !== "multiverse") {
                     err.message = "Unable to determine the type of id being used";
                 }
@@ -115,7 +145,7 @@ function getCard(first, second, cb) {
                     url += `${second}/${first}`;
                 }
                 break;
-            case "number":// This will be a lookup by a set/collector pair.
+            case "number":
                 if (firstType !== "string") {
                     err.message = "Unable to determine set code/collector number being used.";
                 }
@@ -145,7 +175,7 @@ function getCard(first, second, cb) {
             });
         }
     };
-    if (cb || typeof (second) === "function") {
+    if (cb || typeof second === "function") {
         ret(cb, undefined);
     }
     else {

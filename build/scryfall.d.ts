@@ -31,7 +31,7 @@ export declare function getRulings(card: ScryfallCard, cb?: (rulings: ScryfallRu
  * @param cb An optional callback to pass names to.
  * @returns A promise, if no callback is specified. Otherwise nothing.
  */
-export declare function getRulings(setCode: string, cardNumber: string, cb?: (rulings: ScryfallRuling[]) => void): Promise<ScryfallRuling[]>;
+export declare function getRulings(setCode: string, cardNumber: string, cb?: (err: Error | ScryfallError, rulings: ScryfallRuling[]) => void): Promise<ScryfallRuling[]>;
 /**
  * Fetches a specified page of cards from the list of all recorded cards.
  * @param page The page to retrieve.
@@ -98,12 +98,20 @@ export declare function fromSet(code: string, cb?: (cards: ScryfallCard[]) => vo
  */
 export declare function randomCard(format?: "json" | "image" | "text", cb?: (card: ScryfallCard) => void): Promise<ScryfallCard>;
 declare const scryfallMethods: {
-    fromSet: typeof fromSet;
-    allSets: typeof allSets;
-    autocomplete: typeof autocomplete;
-    cardVersions: typeof cardVersions;
-    getCard: typeof getCard;
-    getRulings: typeof getRulings;
-    randomCard: typeof randomCard;
+    fromSet: (code: string, cb?: (cards: ScryfallCard[]) => void) => Promise<ScryfallCard[]>;
+    allSets: (cb?: (sets: ScryfallSet[]) => void) => Promise<ScryfallSet[]>;
+    autocomplete: (token: string, cb?: (matches: string[]) => void) => Promise<string[]>;
+    cardVersions: (name: string, cb?: (cards: ScryfallCard[]) => void) => Promise<ScryfallCard[]>;
+    getCard: {
+        (code: string, number: number, cb?: (err: ScryfallError, card?: ScryfallCard) => void): Promise<ScryfallCard>;
+        (multiverseId: number, type: "multiverse", cb?: (err: ScryfallError, card?: ScryfallCard) => void): Promise<ScryfallCard>;
+        (mtgoId: number, type: "mtgo", cb?: (err: ScryfallError, card?: ScryfallCard) => void): Promise<ScryfallCard>;
+        (scryfallId: string, cb?: (err: ScryfallError, card?: ScryfallCard) => void): Promise<ScryfallCard>;
+    };
+    getRulings: {
+        (card: ScryfallCard, cb?: (rulings: ScryfallRuling[]) => void): Promise<ScryfallRuling[]>;
+        (setCode: string, cardNumber: string, cb?: (err: Error | ScryfallError, rulings: ScryfallRuling[]) => void): Promise<ScryfallRuling[]>;
+    };
+    randomCard: (format?: "image" | "text" | "json", cb?: (card: ScryfallCard) => void) => Promise<ScryfallCard>;
 };
 export { scryfallMethods as Scryfall };
