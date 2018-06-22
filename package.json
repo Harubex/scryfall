@@ -3,8 +3,13 @@
     "description": "A simple wrapper around Scryfall's public API.",
     "version": "0.9.5",
     "keywords": [
-        "scryfall", "magic", "mtg"
+        "scryfall",
+        "magic",
+        "mtg"
     ],
+    "scripts": {
+        "test": "ava --verbose"
+    },
     "author": {
         "name": "ryan",
         "email": "ryan@harubex.com",
@@ -18,7 +23,8 @@
     "main": "./build/scryfall.js",
     "types": "./build/scryfall.d.ts",
     "devDependencies": {
-        "@types/node": "^8.0.19",
-        "mocha": "^3.5.0"
+        "@types/node": "^10.1.2",
+        "ava": "^1.0.0-beta.4",
+        "mocha": "^5.2.0"
     }
 }

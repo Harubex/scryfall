@@ -39,7 +39,6 @@ describe("Scryfall", () => {
     describe("#allSets()", () => {
         it("Return an array of all available sets.", (done) => {
             scryfall.allSets((sets) => {
-                sets[0].set_type
                 assert.ok(sets.length > 0, "No sets were present in the response.");
                 done();
             });

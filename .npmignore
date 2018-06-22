@@ -1,0 +1,9 @@
+# Files/folders not included in publish.
+
+src/
+.vscode/
+test/
+docs/
+tsconfig.json
+yarn.lock
+/**/*.js.map

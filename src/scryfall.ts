@@ -1,11 +1,13 @@
 import * as https from "https";
 import * as qs from "querystring";
 import * as url from "url";
-import { ScryfallListResponse } from "./ScryfallResponses";
-import { ScryfallSet } from "./ScryfallSet";
-import { ScryfallCard } from "./ScryfallCard";
-import { ScryfallError } from "./ScryfallError";
-import { ScryfallRuling } from "./ScryfallRuling";
+import { ScryfallListResponse } from "./types/ScryfallResponses";
+import { ScryfallSet } from "./types/ScryfallSet";
+import { ScryfallCard } from "./types/ScryfallCard";
+import { ScryfallError } from "./types/ScryfallError";
+import { ScryfallRuling } from "./types/ScryfallRuling";
+import request from "./request";
+import scryfall from "./Scry";
 
 /**
  * Attempts to autocomplete the specified token, returning a list of possible matches.
@@ -25,6 +27,8 @@ export function autocomplete(token: string, cb?: (matches: string[]) => void): P
         return new Promise<string[]>((resolve, reject) => ret(resolve));
     }
 }
+
+export function autocomplete(token: string): Promise<string[]>;
 
 /**
  * Fetches a card with the given name, if only one match if found. Fails on multiple matches.
@@ -280,13 +284,7 @@ const scryfallMethods = {
     cardVersions: cardVersions,
     getCard: getCard,
     getRulings: getRulings,
-    randomCard: randomCard
-}
-
-export { scryfallMethods as Scryfall };
-
-
-/**
+    randomCard: randomCard/**
  * Makes a request to the Scryfall API.
  * @param uri The path to request, including any query parameters.
  * @param cb The callback to invoke when the request has completed.
@@ -294,42 +292,47 @@ export { scryfallMethods as Scryfall };
  * @param page Whether or not to return data as pages.
  */
 function APIRequest(uri: string, cb: (res: any) => void, preserve: boolean = false, _partialData = [], page: boolean = false) {
-    let parsedUrl = url.parse(uri);
-    let query = qs.parse(parsedUrl.query);
-    if (!query.format) {
-        query.format = "json";
-    }
-    let reqOps = {
-        host: parsedUrl.host || "api.scryfall.com",
-        path: (parsedUrl.pathname || "") + "?" + qs.stringify(query),
-        headers: {}
-    };
-    let req = https.get(reqOps, (resp) => {
-        if (resp.statusCode === 429) {
-            throw new Error("Too many requests have been made. Please wait a moment before making a new request.");
-        }
-        let responseData = "";
-        resp.on("data", (chunk) => {
-            responseData += chunk;
-        });
-        resp.on("end", () => {
-            try {
-                let jsonResp = JSON.parse(responseData);
-                _partialData = _partialData.concat(jsonResp.data || jsonResp);
-                if (!page && jsonResp.has_more && jsonResp.data.length > 0) {
-                    APIRequest(jsonResp.next_page, cb, preserve, _partialData);
-                }
-                else {
-                    if (!preserve && Array.isArray(_partialData) && _partialData.length) {
-                        _partialData = _partialData[0];
-                    }
-                    cb(_partialData);
-                }
-            }
-            catch (e) {
-                console.error(e);
-            }
-        });
-    });
-    req.end();
+        let parsedUrl = url.parse(uri);
+let query = qs.parse(parsedUrl.query);
+if (!query.format) {
+    query.format = "json";
 }
+let reqOps = {
+    host: parsedUrl.host || "api.scryfall.com",
+    path: (parsedUrl.pathname || "") + "?" + qs.stringify(query),
+    headers: {}
+};
+let req = https.get(reqOps, (resp) => {
+    if (resp.statusCode === 429) {
+        throw new Error("Too many requests have been made. Please wait a moment before making a new request.");
+    }
+    let responseData = "";
+    resp.on("data", (chunk) => {
+        responseData += chunk;
+    });
+    resp.on("end", () => {
+        try {
+            let jsonResp = JSON.parse(responseData);
+            _partialData = _partialData.concat(jsonResp.data || jsonResp);
+            if (!page && jsonResp.has_more && jsonResp.data.length > 0) {
+                APIRequest(jsonResp.next_page, cb, preserve, _partialData);
+            }
+            else {
+                if (!preserve && Array.isArray(_partialData) && _partialData.length) {
+                    _partialData = _partialData[0];
+                }
+                cb(_partialData);
+            }
+        }
+        catch (e) {
+            console.error(e);
+        }
+    });
+});
+req.end();
+}
+}
+
+export { scryfallMethods as Scryfall };
+
+
