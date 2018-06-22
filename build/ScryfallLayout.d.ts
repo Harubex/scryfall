@@ -5,61 +5,61 @@ export declare enum ScryfallLayout {
     /**
      * A standard Magic card with one face.
      */
-    normal = "normal",
+    normal,
     /**
      * A split-faced card.
      */
-    split = "split",
+    split,
     /**
      * Cards that invert vertically with the flip keyword.
      */
-    flip = "flip",
+    flip,
     /**
      * Double-sided cards that transform.
      */
-    transform = "transform",
+    transform,
     /**
      * Cards with meld parts printed on the back.
      */
-    meld = "meld",
+    meld,
     /**
      * Cards with Level Up.
      */
-    leveler = "leveler",
+    leveler,
     /**
      * Saga-type cards.
      */
-    saga = "saga",
+    saga,
     /**
      * Plane and Phenomenon-type cards.
      */
-    planar = "planar",
+    planar,
     /**
      * Scheme-type cards.
      */
-    scheme = "scheme",
+    scheme,
     /**
      * Vanguard-type cards.
      */
-    vanguard = "vanguard",
+    vanguard,
     /**
      * Token cards.
      */
-    token = "token",
+    token,
     /**
      * Tokens with another token printed on the back.
      */
-    double_faced_token = "double_faced_token",
+    double_faced_token,
     /**
      * Emblem cards.
      */
-    emblem = "emblem",
+    emblem,
     /**
      * Cards with Augment.
      */
-    augment = "augment",
+    augment,
     /**
      * Host-type cards.
      */
-    host = "host",
+    host,
 }

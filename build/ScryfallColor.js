@@ -8,22 +8,22 @@ var ScryfallColor;
     /**
      * White.
      */
-    ScryfallColor["W"] = "W";
+    ScryfallColor[ScryfallColor["W"] = "W"] = "W";
     /**
      * Blue.
      */
-    ScryfallColor["U"] = "U";
+    ScryfallColor[ScryfallColor["U"] = "U"] = "U";
     /**
      * Black.
      */
-    ScryfallColor["B"] = "B";
+    ScryfallColor[ScryfallColor["B"] = "B"] = "B";
     /**
      * Red.
      */
-    ScryfallColor["R"] = "R";
+    ScryfallColor[ScryfallColor["R"] = "R"] = "R";
     /**
      * Green.
      */
-    ScryfallColor["G"] = "G";
+    ScryfallColor[ScryfallColor["G"] = "G"] = "G";
 })(ScryfallColor = exports.ScryfallColor || (exports.ScryfallColor = {}));
 //# sourceMappingURL=ScryfallColor.js.map
