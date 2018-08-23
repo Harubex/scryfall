@@ -5,77 +5,77 @@ export declare enum ScryfallSetType {
     /**
      * A yearly Magic core set (e.g. Tenth Edition).
      */
-    core = "core",
+    core,
     /**
      * A rotational expansion set in a block (e.g. Zendikar).
      */
-    expansion = "expansion",
+    expansion,
     /**
      * A reprint set that contains no new cards (e.g. Modern Masters).
      */
-    masters = "masters",
+    masters,
     /**
      * Masterpiece Series premium foil cards.
      */
-    masterpiece = "masterpiece",
+    masterpiece,
     /**
      * From the Vault gift sets.
      */
-    from_the_vault = "from_the_vault",
+    from_the_vault,
     /**
      * Signature Spellbook series gift sets.
      */
-    spellbook = "spellbook",
+    spellbook,
     /**
      * Premium Deck Series decks.
      */
-    premium_deck = "premium_deck",
+    premium_deck,
     /**
      * Duel Decks.
      */
-    duel_deck = "duel_deck",
+    duel_deck,
     /**
      * Commander preconstructed decks.
      */
-    commander = "commander",
+    commander,
     /**
      * Planechase sets.
      */
-    planechase = "planechase",
+    planechase,
     /**
      * Conspiracy sets.
      */
-    conspiracy = "conspiracy",
+    conspiracy,
     /**
      * Archenemy sets.
      */
-    archenemy = "archenemy",
+    archenemy,
     /**
      * Vanguard card sets.
      */
-    vanguard = "vanguard",
+    vanguard,
     /**
      * A funny un-set or set with funny promos (e.g. Unglued, Happy Holidays).
      */
-    funny = "funny",
+    funny,
     /**
      * A starter/introductory set (e.g. Portal).
      */
-    starter = "starter",
+    starter,
     /**
      * A gift box set.
      */
-    box = "box",
+    box,
     /**
      * A set that contains purely promotional cards.
      */
-    promo = "promo",
+    promo,
     /**
      * A set made up of tokens and emblems.
      */
-    token = "token",
+    token,
     /**
      * A set made up of gold-bordered, oversize, or trophy cards that are not legal.
      */
-    memorabilia = "memorabilia",
+    memorabilia,
 }
