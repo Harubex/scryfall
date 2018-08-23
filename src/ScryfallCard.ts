@@ -1,5 +1,4 @@
 import { ScryfallCardFace } from "./ScryfallCardFace";
-import { ScryfallRuling } from "./ScryfallRuling";
 import { ScryfallLayout } from "./ScryfallLayout";
 import { ScryfallImages } from "./ScryfallImages";
 import { ScryfallColor } from "./ScryfallColor";
@@ -149,13 +148,13 @@ export interface ScryfallCard {
         future: Legality,
         frontier: Legality,
         modern: Legality,
-        pauper: Legality,
         legacy: Legality,
-        penny: Legality,
+        pauper: Legality,
         vintage: Legality,
-        duel: Legality,
+        penny: Legality,
         commander: Legality,
         "1v1": Legality,
+        duel: Legality,
         brawl: Legality
     };
     /**

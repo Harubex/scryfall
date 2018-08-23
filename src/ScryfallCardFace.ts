@@ -15,13 +15,21 @@ export interface ScryfallCardFace {
      */
     name: string;
     /**
-     * The type line of this card.
+     * The type line of this card face.
      */
     type_line: string;
+    /**
+     * The language-specific type line for this card face.
+     */
+    printed_type_line: string;
     /**
      * The Oracle text for this card face, if any.
      */
     oracle_text?: string;
+    /**
+     * The language-specific text for this card face.
+     */
+    printed_text?: string;
     /**
      * The mana cost for this card face. This value will be any empty string "" if the cost is absent or not on this face (per the game rules, a missing mana cost and a mana cost of 0 are different values).
      */
