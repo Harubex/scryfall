@@ -5,21 +5,21 @@ export declare enum ScryfallColor {
     /**
      * White.
      */
-    W = "W",
+    W,
     /**
      * Blue.
      */
-    U = "U",
+    U,
     /**
      * Black.
      */
-    B = "B",
+    B,
     /**
      * Red.
      */
-    R = "R",
+    R,
     /**
      * Green.
      */
-    G = "G",
+    G,
 }
