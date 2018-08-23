@@ -77,5 +77,9 @@ export enum ScryfallSetType {
     /**
      * A set made up of gold-bordered, oversize, or trophy cards that are not legal.
      */
-    memorabilia = "memorabilia"
+    memorabilia = "memorabilia",
+    /**
+     * A set that expands upon typical rules for draft, like Conspiracy and Battlebond.
+     */
+    draft_innovation = "draft_innovation"
 }

@@ -39,6 +39,10 @@ export interface ScryfallCard {
      */
     mtgo_foil_id?: number;
     /**
+     * This card’s Arena ID, if any. A large percentage of cards are not available on Arena and do not have this ID.
+     */
+    arena_id?: number;
+    /**
      * A link to this card object on Scryfall’s API.
      */
     uri: ScryfallURI;
