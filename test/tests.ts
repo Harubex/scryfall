@@ -1,9 +1,8 @@
-const assert = require("assert");
-const mocha = require("mocha");
-
-const scryfall = require("../build/scryfall");
+import assert from "assert";
+import { Sets } from "../src";
 
 describe("Scryfall", () => {
+    Sets.all;
     describe("#getCardByName", () => {
         it("Returns a single card with the given name.", (done) => {
             scryfall.getCardByName("jace, vryn's prodigy", false, (err, card) => {
@@ -39,7 +38,7 @@ describe("Scryfall", () => {
     describe("#allSets()", () => {
         it("Return an array of all available sets.", (done) => {
             scryfall.allSets((sets) => {
-                sets[0].set_type
+                sets[0].set_type;
                 assert.ok(sets.length > 0, "No sets were present in the response.");
                 done();
             });
@@ -124,15 +123,15 @@ describe("Scryfall", () => {
             });
         }).timeout(0);
     });
-    
+
     describe("#getCardByScryfall(string) => Promise", () => {
         it("Returns information about a particular card by it's scryfall id.", async () => {
             try {
-            const card = await scryfall.getCard("44012bb8-17b7-4b50-a796-662ef09bfc29");
-            assert.equal(card.name, "Bamboozle", "The returned card is incorrect.");
-            } catch (err) { 
+                const card = await scryfall.getCard("44012bb8-17b7-4b50-a796-662ef09bfc29");
+                assert.equal(card.name, "Bamboozle", "The returned card is incorrect.");
+            } catch (err) {
                 assert.fail(null, err, err.message);
-            }                    
+            }
         }).timeout(0);
     });
 
@@ -157,11 +156,11 @@ describe("Scryfall", () => {
     describe("#getRuling() => Promise", () => {
         it("Returns rulings for a particular card by its scryfall id.", async () => {
             try {
-                const rulings = await scryfall.getRulings("f2b9983e-20d4-4d12-9e2c-ec6d9a345787");
+                const rulings = await scryfall.getRulings({ id: "f2b9983e-20d4-4d12-9e2c-ec6d9a345787" });
                 assert.notEqual(rulings, null);
-            } catch (err) { 
+            } catch (err) {
                 assert.fail(null, err, err.message);
-            }     
+            }
         });
-    })
+    });
 });

@@ -3,11 +3,28 @@
         "target": "es2015",
         "module": "commonjs",
         "sourceMap": true,
-        "baseUrl": "src",
+        "baseUrl": ".",
         "alwaysStrict": true,
         "declaration": true,
-        "outDir": "./build"
+        "outDir": "./build",
+        "types": [
+            "./typings/Scryfall.d.ts"
+        ],
+        "typeRoots": [
+            "node_modules/@types",
+            "./typings"
+        ],
+        "paths": {
+            "*": [
+                "./typings/*"
+            ]
+        }
     },
-    "include": ["./src/scryfall.ts"],
+    "files": [
+        "./typings/Scryfall.d.ts"
+    ],
+    "include": [
+        "src/**/*"
+    ],
     "compileOnSave": true
 }

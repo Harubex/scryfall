@@ -20,7 +20,8 @@
     "main": "./build/scryfall.js",
     "types": "./build/scryfall.d.ts",
     "devDependencies": {
-        "@types/node": "^8.0.19",
+        "@types/mocha": "^5.2.5",
+        "@types/node": "^10.9.4",
         "mocha": "^3.5.0"
     }
 }
