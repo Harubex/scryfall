@@ -2,14 +2,20 @@
     "name": "scryfall",
     "description": "A simple wrapper around Scryfall's public API.",
     "version": "0.9.7",
+    "scripts": {
+        "build": "tsc",
+        "lint": "tslint -c tslint.json --fix --force 'src/**/*.ts'",
+        "test": "mocha --opts src/test/mocha.opts",
+        "prepare": "yarn build"
+    },
     "keywords": [
         "scryfall",
         "magic",
         "mtg"
     ],
     "author": {
-        "name": "ryan",
-        "email": "ryan@harubex.com",
+        "name": "hannah",
+        "email": "hannah@harubex.com",
         "url": "https://harubex.com"
     },
     "repository": {
@@ -17,11 +23,16 @@
         "url": "https://github.com/Harubex/scryfall.git"
     },
     "license": "MIT",
-    "main": "./build/scryfall.js",
-    "types": "./build/scryfall.d.ts",
+    "main": "./build/index.js",
+    "types": "./build/types/index.d.ts",
     "devDependencies": {
-        "@types/mocha": "^5.2.5",
-        "@types/node": "^10.9.4",
-        "mocha": "^3.5.0"
+        "@types/mocha": "^5.2.6",
+        "@types/node": "^11.11.3",
+        "mocha": "^6.0.2",
+        "reflect-metadata": "^0.1.13",
+        "ts-node": "^8.0.3",
+        "tsconfig-paths": "^3.8.0",
+        "tslint": "^5.14.0",
+        "typescript": "^3.3.3333"
     }
 }

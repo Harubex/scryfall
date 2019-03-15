@@ -2,6 +2,7 @@
 {
     "editor.fontSize": 17,
     "workbench.sideBar.location": "right",
+    "typescript.updateImportsOnFileMove.enabled": "always",
     "typescript.referencesCodeLens.enabled": true,
     "files.exclude": {
         "**/*.js": { "when": "$(basename).ts" },
@@ -9,7 +10,9 @@
         "node_modules": true,
         ".gitignore": true,
         "*.db-journal": true,
-        "yarn.lock": true
+        "yarn.lock": true,
+        "yarn-error.log": true,
+        "package-lock.json": true
     },
     "files.autoSave": "off",
     "files.autoSaveDelay": 100,
@@ -21,6 +24,7 @@
     "git.autorefresh": true,
     "git.autofetch": true,
     "git.enabled": true,
+    "git.enableSmartCommit": true,
     "git.confirmSync": true,
     "[json]": {
         "editor.quickSuggestions": {
@@ -29,7 +33,7 @@
             "other": true
         },
         "editor.insertSpaces": true,
-        "editor.detectIndentation": false,
+        "editor.detectIndentation": true,
         "editor.tabSize": 4
     },
     "editor.detectIndentation": false,
@@ -38,5 +42,6 @@
     "diffEditor.renderSideBySide": true,
     "debug.allowBreakpointsEverywhere": true,
     "debug.inlineValues": true,
-    "editor.minimap.enabled": false
+    "editor.minimap.enabled": false,
+    "window.zoomLevel": 0
 }

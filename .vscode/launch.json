@@ -7,8 +7,25 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Run Tests",
-            "program": "${workspaceRoot}/test/tests.js"
+            "name": "Debug Mocha Tests",
+            "protocol": "auto",
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register",
+                "-r",
+                "tsconfig-paths/register",
+                "${workspaceRoot}/node_modules/.bin/mocha",
+                "--inspect-brk",
+                "${relativeFile}",
+            ],
+            "sourceMaps": true,
+            "cwd": "${workspaceRoot}",
+            "args": [
+                "${workspaceFolder}/test/sets.ts"
+            ],       
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",       
+            "port": 9229
         }
     ]
 }

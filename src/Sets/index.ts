@@ -1,6 +1,6 @@
-import request from "../request";
-import { Set } from "Scryfall";
+import Sets from "./Sets";
+import ScryfallSet from "./ScryfallSet";
+import ScryfallSetType from "./ScryfallSetType";
 
-export function all(test: Set): Set[] {
-    return [];
-}
+export default Sets;
+export { Sets, ScryfallSet, ScryfallSetType };

@@ -1,4 +1,4 @@
-# Scryfall
+# scryfall
 
 This module wraps the Scryfall API into a small, easy to use library.
 
@@ -73,4 +73,12 @@ scryfall.getCard("44012bb8-17b7-4b50-a796-662ef09bfc29", (err, card) => {
 scryfall.fromSet("hml", (cards) => {
     console.log(cards[0].name); // "Abbey Gargoyles"
 });
+```
+
+```javascript
+const emitter = Cards.all();
+const allCards = [];
+do {
+    allCards.concat(emitter.getCards());
+} while (emitter.hasMore);
 ```

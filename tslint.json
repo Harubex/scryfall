@@ -1,0 +1,21 @@
+{
+    "defaultSeverity": "warning",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+        "trailing-comma": [ true, { "esSpecCompliant": true} ], // Looks poor, potentially introduces bugs.
+        "comment-format": [ true, "check-space" ],             // Nice to enforce consistent comment appearance.
+        "interface-over-type-literal": false,                 // Both have their uses.
+        "object-literal-sort-keys": false,                   // Super nit-picky, semantic order > alpha order.
+        "max-line-length": [ true, 150 ],                   // The default (120) is a little small.
+        "no-empty-interface": false,                       // Marker interfaces are nice.
+        "unified-signatures": false,                      // Can be useful for data-hiding.
+        "ordered-imports": false,                        // Again, super nit-picky.
+        "interface-name": false,                        // Following C# paradigms in TS makes no sense.
+        "forin": false,                                // Only really necessary for DOM object iteration.
+        "radix": false                                // When are we ever gonna want non-base 10?
+    },
+    "rulesDirectory": []
+}

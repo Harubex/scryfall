@@ -1,0 +1,21 @@
+version: 2.1
+executors:
+    node-executor:
+        docker:
+            - image: circleci/node
+        working_directory: ~/scryfall
+jobs: 
+    build:
+        executor: node-executor
+        steps:
+            - setup_remote_docker
+            - checkout
+            - run: 
+                name: Install modules
+                command: yarn install
+            - run:  
+                name: Run lint
+                command: yarn lint
+            - run:
+                name: Run tests
+                command: yarn test
