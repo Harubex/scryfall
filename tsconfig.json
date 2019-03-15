@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "diagnostics": false,
-        "removeComments": true,
+        "removeComments": false,
         "forceConsistentCasingInFileNames": true,
         "allowUnreachableCode": false,
         "emitDeclarationOnly": false,
