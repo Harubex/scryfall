@@ -24,19 +24,23 @@ export interface ScryfallCard extends ScryfallObject {
      */
     id: ScryfallUUID;
     /**
-     * A unique ID for this card’s oracle identity. This value is consistent across reprinted card editions, and unique among different cards with the same name (e.g. tokens, Unstable variants).
+     * A unique ID for this card’s oracle identity. This value is consistent across reprinted card editions,
+     * and unique among different cards with the same name (e.g. tokens, Unstable variants).
      */
     oracle_id: ScryfallUUID;
     /**
-     * This card’s multiverse IDs on Gatherer, if any, as an array of integers. Note that Scryfall includes many promo cards, tokens, and other esoteric objects that do not have these identifiers.
+     * This card’s multiverse IDs on Gatherer, if any, as an array of integers.
+     * Note that Scryfall includes many promo cards, tokens, and other esoteric objects that do not have these identifiers.
      */
     multiverse_id?: number[];
     /**
-     * This card’s Magic Online ID (also known as the Catalog ID), if any. A large percentage of cards are not available on Magic Online and do not have this ID.
+     * This card’s Magic Online ID (also known as the Catalog ID), if any.
+     * A large percentage of cards are not available on Magic Online and do not have this ID.
      */
     mtgo_id?: number;
     /**
-     * This card’s foil Magic Online ID (also known as the Catalog ID), if any. A large percentage of cards are not available on Magic Online and do not have this ID.
+     * This card’s foil Magic Online ID (also known as the Catalog ID), if any.
+     * A large percentage of cards are not available on Magic Online and do not have this ID.
      */
     mtgo_foil_id?: number;
     /**
@@ -75,7 +79,8 @@ export interface ScryfallCard extends ScryfallObject {
      */
     lang?: string;
     /**
-     * A computer-readable designation for this card’s layout. The layout can be used to programmatically determine which other properties on a card you can expect.
+     * A computer-readable designation for this card’s layout. The layout can be used to
+     * programmatically determinewhich other properties on a card you can expect.
      */
     layout: ScryfallLayout;
     /**
@@ -99,7 +104,8 @@ export interface ScryfallCard extends ScryfallObject {
      */
     oracle_text?: string;
     /**
-     * The mana cost for this card. This value will be any empty string "" if the cost is absent (per the game rules, a missing mana cost and a mana cost of 0 are different values).
+     * The mana cost for this card. This value will be any empty string "" if the cost is absent
+     * (per the game rules, a missing mana cost and a mana cost of 0 are different values).
      */
     mana_cost: string;
     /**
@@ -298,7 +304,7 @@ export interface ScryfallCard extends ScryfallObject {
          * The current price of this card in Magic Online Tickets, if any. Does not exist for print-only cards.
          */
         tix?: string
-    }
+    };
 
     /**
      * Links to external resources for this card.
@@ -321,6 +327,7 @@ export interface ScryfallCard extends ScryfallObject {
          */
         mtgtop8: ScryfallURI;
     };
+
     /**
      * Links to external sites where this card can be purchased.
      */

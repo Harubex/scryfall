@@ -105,8 +105,40 @@ function random(
 }
 // #endregion
 
+// #region random() & overloads.
+/**
+ * Retrieves one or more Card objects with the provided name.
+ * @param cardName The card name to search for.
+ * @param fuzzy Whether or not to consider the given card name as fuzzy.
+ * @param format The data format to return: json, text, or image. Defaults to json.
+ */
+async function byName(cardName: string, fuzzy?: boolean, format?: Exclude<ScryfallFormat, "csv">): Promise<ScryfallCard[]>;
+
+/**
+ * Retrieves one or more Card objects with the provided name.
+ * @param cardName The card name to search for.
+ * @param fuzzy Whether or not to consider the given card name as fuzzy.
+ * @param format The data format to return: json, text, or image. Defaults to json.
+ * @param cb A callback to pass card data to.
+ */
+function byName(cardName: string, fuzzy?: boolean, format?: Exclude<ScryfallFormat, "csv">, cb?: ScryfallCallback<ScryfallCard[]>): void;
+
+/**
+ * Retrieves one or more Card objects with the provided name.
+ * @param cardName The card name to search for.
+ * @param fuzzy Whether or not to consider the given card name as fuzzy.
+ * @param format The data format to return: json, text, or image. Defaults to json.
+ * @param cb An optional callback to invoke in lieu of a promise.
+ * @returns A promise if no callback is provided, otherwise nothing.
+ */
+function byName(
+    cardName: string, fuzzy?: boolean, format?: Exclude<ScryfallFormat, "csv">, cb?: ScryfallCallback<ScryfallCard[]>
+): void | Promise<ScryfallCard[]> {
+    return APIRequest(`/cards/named?${fuzzy ? "fuzzy" : "exact"}=${cardName}&format=${format}`, cb);
+}
+
 export const Cards = {
-    pageSize, all, byPage, autocomplete
+    pageSize, all, byPage, autocomplete, random, byName
 };
 
 export default Cards;
